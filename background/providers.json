@@ -1,0 +1,6 @@
+{
+    "fr-stable": "http://eexcess.joanneum.at/eexcess-privacy-proxy/api/v1/recommend", 
+    "eu":"http://europeana.eu/api//v2/search.json?wskey=HT6JwVWha",
+    "fr-devel":"http://eexcess-dev.joanneum.at/eexcess-privacy-proxy/api/v1/recommend",
+    "self":"http://eexcess.joanneum.at/eexcess-privacy-proxy/api/v1/recommend"
+}

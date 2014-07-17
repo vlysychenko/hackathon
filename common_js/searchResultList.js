@@ -14,7 +14,7 @@ var EEXCESS = EEXCESS || {};
  * - jquery-ui.css
  * Handlers for preview and rating can be customized via options, as well as the
  * path to the media folder and the path to the libs folder
- * 
+ *
  * See an usage example in /usage_examples searchResultList.js and searchResultList.html
  * @param {Jquery div elmeent} divContainer
  * @param {Object} options
@@ -24,11 +24,10 @@ EEXCESS.searchResultList = function(divContainer, options) {
         pathToMedia: '../media/',
         pathToLibs: '../libs/',
         previewHandler: function(url) {
-            window.open(url, '_blank');
-            EEXCESS.messaging.callBG({method:{parent:'model',func:'resultOpened'},data:url});
+            EEXCESS.callBG({method: 'fancybox', data: url});
         },
         ratingHandler: function(uri, score, pos) {
-            EEXCESS.messaging.callBG({
+            EEXCESS.callBG({
                 method: {parent: 'model', func: 'rating'},
                 data: {
                     uri: uri,
@@ -56,23 +55,23 @@ EEXCESS.searchResultList = function(divContainer, options) {
         var xOffset = 10;
         var yOffset = 30;
         link.hover(
-                function(e) {
-                    $('body').append('<p id="eexcess_thumb"><img src="' + img
-                            + '" alt="img preview" /></p>');
-                    $('#eexcess_thumb')
-                            .css('position', 'absolute')
-                            .css('top', (e.pageY - xOffset) + 'px')
-                            .css('left', (e.pageX + yOffset) + 'px')
-                            .css('z-index', 9999)
-                            .fadeIn('fast');
-                },
-                function() {
-                    $('#eexcess_thumb').remove();
-                });
+            function(e) {
+                $('body').append('<p id="eexcess_thumb"><img src="' + img
+                    + '" alt="img preview" /></p>');
+                $('#eexcess_thumb')
+                    .css('position', 'absolute')
+                    .css('top', (e.pageY - xOffset) + 'px')
+                    .css('left', (e.pageX + yOffset) + 'px')
+                    .css('z-index', 9999)
+                    .fadeIn('fast');
+            },
+            function() {
+                $('#eexcess_thumb').remove();
+            });
         link.mousemove(function(e) {
             $('#eexcess_thumb')
-                    .css('top', (e.pageY - xOffset) + 'px')
-                    .css('left', (e.pageX + yOffset) + 'px');
+                .css('top', (e.pageY - xOffset) + 'px')
+                .css('left', (e.pageX + yOffset) + 'px');
         });
     };
     var _rating = function(element, uri, score) {
@@ -99,28 +98,23 @@ EEXCESS.searchResultList = function(divContainer, options) {
     divContainer.append(_list);
     divContainer.append(_error);
 
-    // obtain current results
-    EEXCESS.messaging.callBG({method: {parent: 'model', func: 'getResults'}, data: null}, function(reqResult) {
-        showResults(reqResult);
-    });
-
     // listen for updates
-    EEXCESS.messaging.listener(
-            function(request, sender, sendResponse) {
-                if (request.method.parent === 'results') {
-                    if (request.method.func === 'rating') {
-                        _rating($('.eexcess_raty[data-uri="' + request.data.uri + '"]'), request.data.uri, request.data.score);
-                    }
-                }
-                if (request.method === 'newSearchTriggered') {
-                    showResults(request.data);
-                }
-                if (request.method.parent === 'results' && request.method.func === 'error') {
-                    _list.empty();
-                    _loader.hide();
-                    _error.show();
+    EEXCESS.messageListener(
+        function(request, sender, sendResponse) {
+            if (request.method.parent === 'results') {
+                if (request.method.func === 'rating') {
+                    _rating($('.eexcess_raty[data-uri="' + request.data.uri + '"]'), request.data.uri, request.data.score);
                 }
             }
+            if (request.method === 'newSearchTriggered') {
+                showResults(request.data);
+            }
+            if (request.method.parent === 'results' && request.method.func === 'error') {
+                _list.empty();
+                _loader.hide();
+                _error.show();
+            }
+        }
     );
 
     var showResults = function(data) {
@@ -214,6 +208,12 @@ EEXCESS.searchResultList = function(divContainer, options) {
 //                });
 //            }
     };
+
+    // obtain current results
+    EEXCESS.callBG({method: {parent: 'model', func: 'getResults'}, data: null}, function(reqResult) {
+        showResults(reqResult);
+    });
+
     var shortenDescription = function(description) {
 
         var firstPart = description.substring(0, 100);
