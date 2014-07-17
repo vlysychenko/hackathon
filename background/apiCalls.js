@@ -135,7 +135,7 @@ EEXCESS.frCall_impl = function(queryData, start, success, error) {
 };
 
 
-// set provider call function and url according to the provided value 
+// set provider call function and url according to the provided value
 // if an inappropriate value is given, set it to fr-stable
 EEXCESS.backend = (function() {
     var call = EEXCESS.frCall_impl;
