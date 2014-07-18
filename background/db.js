@@ -5,6 +5,37 @@ var EEXCESS = EEXCESS || {};
  */
 EEXCESS.DB = {};
 
+var regEmulator = {
+    error: null,
+    onblocked: null,
+    onerror: null,
+    onsuccess: null,
+    onupgradeneeded: null,
+    readyState: 'done',
+    source: null,
+    transaction: null,
+    result:
+    {
+        name:'eexcess_db',
+        objectStoreNames:
+        {
+            0: 'history',
+            1: 'interactions',
+            2: 'queries',
+            3: 'recommendations',
+            4: 'resource_relations',
+            length: 5
+
+        },
+        onabort: null,
+        onclose: null,
+        onerror: null,
+        onversionchange: null,
+        version: 42
+
+    }
+}
+
 /**
  * Initializes {@link EEXCESS.DB} with an instance of the indexedDB. Creates
  * object stores, if necessary (and removes previously created object stores).
@@ -12,9 +43,9 @@ EEXCESS.DB = {};
  */
 EEXCESS.initDB = function() {
     console.log('init DB');
-    
     // initialize connection
-    var req = indexedDB.open('eexcess_db', 42);
+//    var req = indexedDB.open('eexcess_db', 42);
+    var req = regEmulator;
     console.log('opening');
 
     // update or create db

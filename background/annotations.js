@@ -153,26 +153,26 @@ EEXCESS.annotation = (function() {
          * @param {ratingScoreCallback} callback Function to call with the retrieved rating score
          */
         getRating: function(uri, context, callback) {
-            var tx = EEXCESS.DB.transaction('resource_relations');
-            var store = tx.objectStore('resource_relations');
-            var idx = store.index('resource');
-            var curreq = idx.openKeyCursor(uri);
-
-            curreq.onsuccess = function() {
-                var cursor = curreq.result;
-                if (cursor) {
-                    var req = store.get(cursor.primaryKey);
-                    req.onsuccess = function() {
-                        if (typeof req.result !== 'undefined') {
-                            if (req.result.type === 'rating') { // TODO: check context?
-                                callback(req.result.annotation.hasBody['http://purl.org/stuff/rev#rating']);
-                            } else {
-                                cursor.continue();
-                            }
-                        }
-                    };
-                }
-            };
+//            var tx = EEXCESS.DB.transaction('resource_relations');
+//            var store = tx.objectStore('resource_relations');
+//            var idx = store.index('resource');
+//            var curreq = idx.openKeyCursor(uri);
+//
+//            curreq.onsuccess = function() {
+//                var cursor = curreq.result;
+//                if (cursor) {
+//                    var req = store.get(cursor.primaryKey);
+//                    req.onsuccess = function() {
+//                        if (typeof req.result !== 'undefined') {
+//                            if (req.result.type === 'rating') { // TODO: check context?
+                                callback('0');
+//                            } else {
+//                                cursor.continue();
+//                            }
+//                        }
+//                    };
+//                }
+//            };
         },
 // TODO: other types of annotations.... (not only text->specificResource)
         /**

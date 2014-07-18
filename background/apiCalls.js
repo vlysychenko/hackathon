@@ -71,7 +71,8 @@ EEXCESS.euCall = function(queryData, start, success, error) {
     var xhr = $.ajax(EEXCESS.backend.getURL()
         + '&query=' + query
         + '&start=' + start
-        + '&rows=96&profile=standard');
+        + '&rows=96&profile=standard'
+        );
     xhr.done(function(data) {
         console.log(data);
         if (data.totalResults !== 0) {
@@ -151,6 +152,7 @@ EEXCESS.backend = (function() {
                 localStorage.setItem('backend', provider);
             }
             switch (provider) {
+                case 'null':
                 case 'eu':
                     console.log('eu');
                     call = EEXCESS.euCall;
@@ -181,8 +183,8 @@ EEXCESS.backend = (function() {
                             fr_url = local_fr_url;
                         }
                     }
-                case 'null':
-                    backend = 'fr-stable';
+
+//                    backend = 'fr-stable';
             }
         },
         setURL: function(tabID, urls) {
