@@ -138,45 +138,61 @@ EEXCESS.storage = (function() {
      * @param {Function} error (optional) error callback without parameters
      */
     var _setRating = function(rating, success, error) {
-        _getDB(function(db) {
-            var entryExists = false;
-            var tx = db.transaction('resource_relations', 'readwrite');
-            var store = tx.objectStore('resource_relations');
-            var idx = store.index('resource');
-            var curreq = idx.openCursor(rating.resource);
+//        _getDB(function(db) {
+//            var entryExists = false;
+//            var tx = db.transaction('resource_relations', 'readwrite');
+//            var store = tx.objectStore('resource_relations');
+//            var idx = store.index('resource');
+//            var curreq = idx.openCursor(rating.resource);
+//
+//            // if rating with same context is present in database, update it
+//            curreq.onsuccess = function() {
+//                var cursor = curreq.result;
+//                if (cursor) {
+//                    if (cursor.value.type === 'rating' && cursor.value.context.query === rating.context.query) {
+//                        entryExists = true;
+//                        rating.id = cursor.primaryKey;
+//                        cursor.update(rating);
+//                    } else {
+//                        cursor.continue();
+//                    }
+//                }
+//            };
+//
+//            // add new rating to database
+//            tx.oncomplete = function() {
+//                if (!entryExists) {
+//                    var tx2 = db.transaction('resource_relations', 'readwrite');
+//                    var store2 = tx2.objectStore('resource_relations');
+//                    var req = store2.put(rating);
+//                    req.onsuccess = function() {
+//                        _empty_callback(success);
+//                    };
+//                    req.onerror = function() {
+//                        _empty_callback(error);
+//                    };
+//                }
+//            };
+//            tx.onerror = function() {
+//                _empty_callback(error);
+//            };
+//        }, _empty_callback(error));
 
-            // if rating with same context is present in database, update it
-            curreq.onsuccess = function() {
-                var cursor = curreq.result;
-                if (cursor) {
-                    if (cursor.value.type === 'rating' && cursor.value.context.query === rating.context.query) {
-                        entryExists = true;
-                        rating.id = cursor.primaryKey;
-                        cursor.update(rating);
-                    } else {
-                        cursor.continue();
-                    }
-                }
-            };
+        $.ajax({
+            type:'POST',
+            url:localStorage['VOTE_URL'],
+            data:rating,
+            success:function (){
+               console.log('Success ajax');
+                _empty_callback(success);
+            },
 
-            // add new rating to database
-            tx.oncomplete = function() {
-                if (!entryExists) {
-                    var tx2 = db.transaction('resource_relations', 'readwrite');
-                    var store2 = tx2.objectStore('resource_relations');
-                    var req = store2.put(rating);
-                    req.onsuccess = function() {
-                        _empty_callback(success);
-                    };
-                    req.onerror = function() {
-                        _empty_callback(error);
-                    };
-                }
-            };
-            tx.onerror = function() {
+            error:function(){
+                console.log('Error ajax');
                 _empty_callback(error);
-            };
-        }, _empty_callback(error));
+            }
+
+        })
     };
 
     /**

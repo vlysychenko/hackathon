@@ -48,13 +48,13 @@ EEXCESS.annotation = (function() {
             };
 
             // log rating on pp
-            var xhr = $.ajax({
-                url: EEXCESS.config.LOG_RATING_URI,
-                data: JSON.stringify({"uuid":EEXCESS.profile.getUUID(),"rating":rating}),
-                type: 'POST',
-                contentType: 'application/json; charset=UTF-8',
-                dataType: 'json'
-            });
+//            var xhr = $.ajax({
+//                url: EEXCESS.config.LOG_RATING_URI,
+//                data: JSON.stringify({"uuid":EEXCESS.profile.getUUID(),"rating":rating}),
+//                type: 'POST',
+//                contentType: 'application/json; charset=UTF-8',
+//                dataType: 'json'
+//            });
             
             // store rating
             EEXCESS.storage.setRating(rating);
