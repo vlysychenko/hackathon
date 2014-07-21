@@ -73,6 +73,7 @@ EEXCESS.messageListener(
 $(function(){
     $('#language').on('change',function(){
         EEXCESS.profile.setLanguage($(this).val());
+        $('#testForm').submit();
     });
 
     $.each(EEXCESS.config.LANGUAGES_AVAILABLE, function(key, value) {
