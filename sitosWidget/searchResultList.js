@@ -69,3 +69,17 @@ EEXCESS.messageListener(
             }
         }
 );
+
+$(function(){
+    $('#language').on('change',function(){
+        EEXCESS.profile.setLanguage($(this).val());
+    });
+
+    $.each(EEXCESS.config.LANGUAGES_AVAILABLE, function(key, value) {
+        $('#language')
+            .append($("<option></option>")
+                .attr("value",value)
+                .text(value));
+    });
+    $('#language').val(EEXCESS.profile.getLanguage());
+});

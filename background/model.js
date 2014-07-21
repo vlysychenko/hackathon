@@ -79,9 +79,17 @@ EEXCESS.model = (function() {
 
     var _handleResult = function(res) {
         var execute = function(items) {
-            res.data.results = items;
+            if(EEXCESS.profile.getLanguage()!==undefined
+                && EEXCESS.profile.getLanguage()!=='all'){
+                res.data.results = items.filter(function(result){
+                    return result.language.indexOf(EEXCESS.profile.getLanguage()) >= 0;
+                })
+            }else{
+                res.data.results = items;
+            }
 //            if (res.hasOwnProperty('reason') && res['reason']['reason'] === 'manual') {
-                results = res;
+            results = res;
+
                 EEXCESS.sendMsgAll({
                     method: 'newSearchTriggered',
                     data: {query: results.query, results: results.data}

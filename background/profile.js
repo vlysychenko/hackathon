@@ -3,6 +3,7 @@ var EEXCESS = EEXCESS || {};
 EEXCESS.profile = (function() {
     // retrieve UUID from local storage or create a new one
     var _uuid;
+    var _language = 'de';
     if (typeof (Storage) !== 'undefined') {
         _uuid = localStorage.getItem('profile.uuid');
         if (typeof _uuid === 'undefined' || _uuid === null) {
@@ -98,10 +99,15 @@ EEXCESS.profile = (function() {
         return address;
     };
 
-
     return {
         getUUID: function() {
             return _uuid;
+        },
+        getLanguage: function(){
+            return _language;
+        },
+        setLanguage: function(lang){
+            _language = lang;
         },
         getProfile: function(callback) {
             var und;
