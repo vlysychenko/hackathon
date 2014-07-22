@@ -2,7 +2,7 @@
     all pages should include first this css, and then
     their own. The base color for the scheme design is #1d904e */
 
-body,html {
+#eexcess,html {
     height:100%;
     margin:0;
     padding:0;
@@ -10,13 +10,18 @@ body,html {
     font-family: Lucida, Lucida Grande, Verdana,Arial,sans-serif;
 }
 
-body {
+#eexcess {
+    border: dotted 1px;
+    height: 800px;
+    width: 350px;
+    overflow-y: scroll;
+    float: right;
     background-image: url('media/watermark.png');
     background-size: auto 100%;
     font-size:0.7em;
 }
 
-body a{
+#eexcess a{
     text-decoration:none;
     color: #529CBF;
 }

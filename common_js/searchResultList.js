@@ -144,7 +144,7 @@ EEXCESS.searchResultList = function(divContainer, options) {
                 title = 'no title';
             }
             var pos = i + offset;
-            var li = $('<li data-pos="' + pos + '" data-id="' + item.id + '"></li>');
+            var li = $('<li data-pos="' + pos + '" data-id="' + item.id + '"><button id="takeToTinyMse">Take to editor</button>');
 
             _list.append(li);
 
