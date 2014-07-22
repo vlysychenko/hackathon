@@ -79,11 +79,12 @@ EEXCESS.model = (function() {
 
     var _handleResult = function(res) {
         var execute = function(items) {
-            if(EEXCESS.profile.getLanguage()!==undefined
-                && EEXCESS.profile.getLanguage()!=='all'){
+            if(EEXCESS.profile.getLanguage() !== undefined
+                && EEXCESS.profile.getLanguage() !== 'all'){
                 res.data.results = items.filter(function(result){
                     return result.language.indexOf(EEXCESS.profile.getLanguage()) >= 0;
-                })
+                });
+                res.data.totalResults = res.data.results.length;
             }else{
                 res.data.results = items;
             }
