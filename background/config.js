@@ -33,21 +33,23 @@ EEXCESS.config =
 
     var _PP_BASE_URI = 'http://eexcess-dev.joanneum.at/eexcess-privacy-proxy/';
     var _LOG_RATING_URI = _PP_BASE_URI + 'log/rating';
-    var _LOG_RVIEW_URI = _PP_BASE_URI + 'log/rview';
+    var _LOG_RVIEW_URI = '/testAjax.php';
     var _LOG_RCLOSE_URI = _PP_BASE_URI + 'log/rclose';
+    var _LOG_TAKE_URI = '/testAjax.php';
     var _LOG_SHOW_HIDE_URI = _PP_BASE_URI + 'log/show_hide';
     var _LOG_FACETSCAPE_URI = _PP_BASE_URI + 'log/facetScape';
     var _DISAMBIGUATE_URI = _PP_BASE_URI + 'disambiguate';
     var _LOG_QUERY_ACTIVATED_URI = _PP_BASE_URI + 'log/query_activated';
     var _LANGUAGES_AVAILABLE = ['de', 'en', 'all'];
-    var _VOTE_URL = 'http://eexcess/testAjax.php';
-    var _ADD_RATING_URL = 'http://eexcess/testAjax.php';
+    var _VOTE_URL = '/testAjax.php';
+    var _ADD_RATING_URL = '/testAjax.php';
 
     return {
         PP_BASE_URI: _PP_BASE_URI,
         LOG_RATING_URI: _LOG_RATING_URI,
         LOG_RVIEW_URI: _LOG_RVIEW_URI,
         LOG_RCLOSE_URI: _LOG_RCLOSE_URI,
+        LOG_TAKE_URI: _LOG_TAKE_URI,
         LOG_SHOW_HIDE_URI: _LOG_SHOW_HIDE_URI,
         DISAMBIGUATE_URI:_DISAMBIGUATE_URI,
         LOG_FACETSCAPE_URI:_LOG_FACETSCAPE_URI,
