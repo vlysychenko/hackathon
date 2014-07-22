@@ -180,8 +180,9 @@ EEXCESS.storage = (function() {
 
         $.ajax({
             type:'POST',
-            url:localStorage['VOTE_URL'],
-            data:rating,
+            url:EEXCESS.config.VOTE_URL,
+            data:JSON.stringify(rating),
+            dataType: 'json',
             success:function (){
                console.log('Success ajax');
                 _empty_callback(success);
@@ -247,47 +248,93 @@ EEXCESS.storage = (function() {
      * @param {Function} error (optional) error callback
      * @returns {undefined}
      */
-    var _getRatings = function(items, success, error) {
-        _getDB(function(db) {
-            var tx = db.transaction('resource_relations');
-            var store = tx.objectStore('resource_relations');
-            var idx = store.index('resource');
+    var _getRatings = function(items, context, success, error) {
+//        _getDB(function(db) {
+//            var tx = db.transaction('resource_relations');
+//            var store = tx.objectStore('resource_relations');
+//            var idx = store.index('resource');
+//
+//            var i = 0;
+//            handleNext(); // initial item (others get handled by callback on success)
+//            // handle a single item
+//            function handleNext() {
+//                if (i < items.length) {
+//                    var curreq = idx.openCursor(items[i].uri);
+//                    curreq.onsuccess = function() {
+//                        var cursor = curreq.result;
+//                        if (cursor) { // TODO: check context?
+//                            var req = store.get(cursor.primaryKey);
+//                            req.onsuccess = function() {
+//                                if (typeof req.result !== 'undefined') {
+//                                    if (req.result.type === 'rating') { // TODO: check context?
+//                                        items[i].rating = req.result.annotation.hasBody['http://purl.org/stuff/rev#rating'];
+//                                        i++;
+//                                        handleNext();
+//                                    } else {
+//                                        cursor.continue();
+//                                    }
+//                                }
+//                            };
+//                        } else {
+//                            i++;
+//                            handleNext();
+//                        }
+//                    };
+//                }
+//            }
+//            tx.oncomplete = function() {
+//                success(items);
+//            };
+//            tx.onerror = function() {
+//                _empty_callback(error);
+//            };
+//        });
 
-            var i = 0;
-            handleNext(); // initial item (others get handled by callback on success)
-            // handle a single item
-            function handleNext() {
-                if (i < items.length) {
-                    var curreq = idx.openCursor(items[i].uri);
-                    curreq.onsuccess = function() {
-                        var cursor = curreq.result;
-                        if (cursor) { // TODO: check context?
-                            var req = store.get(cursor.primaryKey);
-                            req.onsuccess = function() {
-                                if (typeof req.result !== 'undefined') {
-                                    if (req.result.type === 'rating') { // TODO: check context?
-                                        items[i].rating = req.result.annotation.hasBody['http://purl.org/stuff/rev#rating'];
-                                        i++;
-                                        handleNext();
-                                    } else {
-                                        cursor.continue();
-                                    }
-                                }
-                            };
-                        } else {
-                            i++;
-                            handleNext();
+        var itemsForAddRating = {};
+
+        for(var i=0; i<items.length; i++){
+            itemsForAddRating[i] = {
+                uri: items[i].uri,
+                context:context
+            }
+        }
+//
+//        var allItemsWithRating = {};
+
+        $.ajax({
+            type:'POST',
+            url:EEXCESS.config.ADD_RATING_URL,
+            data:{items: itemsForAddRating},
+            dataType: 'json',
+            success:function (itemsWithRating){
+                console.log('Success ajax');
+                _optional_callback(success, resultItem(itemsWithRating, items));
+//                allItemsWithRating = itemsWithRating;
+            },
+
+            error:function(){
+                console.log('Error ajax');
+                _empty_callback(error);
+            }
+        })
+
+        var resultItem = function(allItemsWithRating, items){
+            if(allItemsWithRating.length > 0){
+
+                for (var i=0; i<items.length; i++){
+
+                    for (var j=0; j<allItemsWithRating.length; j++){
+                        if(items[i].uri == allItemsWithRating[j].uri){
+                            items[i].rating = allItemsWithRating[j].rating
+                            break;
                         }
-                    };
+                    }
                 }
             }
-            tx.oncomplete = function() {
-                success(items);
-            };
-            tx.onerror = function() {
-                _empty_callback(error);
-            };
-        });
+            return items;
+        }
+
+
     };
 
     /**

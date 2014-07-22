@@ -93,7 +93,7 @@ EEXCESS.model = (function() {
         };
 
         // update ratings first
-        EEXCESS.storage.getRatings(res.data.results, execute, function() {
+        EEXCESS.storage.getRatings(res.data.results, res.query, execute, function() {
             execute(res.data.results);
         });
     };
