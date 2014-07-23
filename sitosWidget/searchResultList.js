@@ -94,6 +94,7 @@ $(function(){
         var insertion = '<p><img src="' + img + '" alt="' + title + '">';
         insertion += '<p><a href="' + link + '">' + title + '</a></p></p>';
         tinyMCE.get(EEXCESS.config.MCE_ID).execCommand("mceInsertContent", false, insertion);
+        EEXCESS.callBG({method: {parent: 'logging', func: 'tookRecommendation'}, data: link});
 
     });
 });
