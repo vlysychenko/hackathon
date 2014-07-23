@@ -86,14 +86,13 @@ $(function(){
 });
 
 $(function(){
-    $('ul').on('click', 'button', function(evt) {
+    $('ul').on('click', '.buttonTakeToTinyMce', function(evt) {
 
         var img = $(this).parent().find('img.eexcess_previewIMG').attr('src');
         var text = $(this).parent().find('.eexcess_resContainer>a').text();
         var link = $(this).parent().find('.resCtL a').attr('href');
 
-
-        $('iframe').contents().find('p')
+        $('#tinyMce iframe').contents().find('body#tinymce')
             .append('<img src='+img+'>')
             .append('<p>'+text+'</p>')
             .append('<p>'+link+'</p>');
