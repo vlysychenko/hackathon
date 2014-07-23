@@ -43,6 +43,7 @@ EEXCESS.config =
     var _LANGUAGES_AVAILABLE = ['de', 'en', 'all'];
     var _VOTE_URL = '/testAjax.php';
     var _ADD_RATING_URL = '/testAjax.php';
+    var _MCE_ID = 'text_editor';
 
     return {
         PP_BASE_URI: _PP_BASE_URI,
@@ -56,6 +57,7 @@ EEXCESS.config =
         LOG_QUERY_ACTIVATED_URI: _LOG_QUERY_ACTIVATED_URI,
         LANGUAGES_AVAILABLE: _LANGUAGES_AVAILABLE,
         VOTE_URL: _VOTE_URL,
-        ADD_RATING_URL: _ADD_RATING_URL
+        ADD_RATING_URL: _ADD_RATING_URL,
+        MCE_ID: _MCE_ID
     };
 })();

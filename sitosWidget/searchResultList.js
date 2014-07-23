@@ -89,13 +89,11 @@ $(function(){
     $('ul').on('click', '.buttonTakeToTinyMce', function(evt) {
 
         var img = $(this).parent().find('img.eexcess_previewIMG').attr('src');
-        var text = $(this).parent().find('.eexcess_resContainer>a').text();
+        var title = $(this).parent().find('.eexcess_resContainer>a').text();
         var link = $(this).parent().find('.resCtL a').attr('href');
-
-        $('#tinyMce iframe').contents().find('body#tinymce')
-            .append('<img src='+img+'>')
-            .append('<p>'+text+'</p>')
-            .append('<p>'+link+'</p>');
+        var insertion = '<p><img src="' + img + '" alt="' + title + '">';
+        insertion += '<p><a href="' + link + '">' + title + '</a></p></p>';
+        tinyMCE.get(EEXCESS.config.MCE_ID).execCommand("mceInsertContent", false, insertion);
 
     });
 });
