@@ -97,3 +97,28 @@ $(function(){
 
     });
 });
+
+//$(function(){
+//    window.setInterval(
+//        function(){
+//            var selectedText = tinyMCE.activeEditor.selection.getContent({format : "text"});
+//            if ( selectedText != "" ){
+//                rList.loading();
+//                (function(){
+//                    var query_terms = selectedText.split(' ');
+//                    var query = [];
+//                    for (var i = 0; i < query_terms.length; i++) {
+//                        var tmp = {
+//                            weight: 1,
+//                            text: query_terms[i]
+//                        };
+//                        query.push(tmp);
+//                    }
+//                    // send query for new results
+//                    EEXCESS.callBG({method: {parent: 'model', func: 'query'}, data: query});
+//                })();
+//            }
+//        },
+//        2000
+//    );
+//});
