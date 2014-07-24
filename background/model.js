@@ -197,7 +197,7 @@ EEXCESS.model = (function() {
             EEXCESS.logging.logQuery(tabID, tmp['weightedTerms'], _queryTimestamp, '_full');
             // add manual queries to 'queries'
             if (tmp.hasOwnProperty('reason') && tmp['reason']['reason'] === 'manual') {
-                EEXCESS.logging.logQuery(tabID, tmp['weightedTerms'], _queryTimestamp, '', 'manual');
+                EEXCESS.logging.logQuery(tabID, tmp['weightedTerms'], _queryTimestamp, '', 'manual', tmp['query']);
             }
             var success = function(data) { // success callback
                 // TODO: search may return no results (although successful)
@@ -210,6 +210,11 @@ EEXCESS.model = (function() {
                     // log results
                     EEXCESS.logging.logRecommendations(data.results, context, _queryTimestamp);
                     _handleResult(tmp);
+                }else{
+                    EEXCESS.sendMsgAll({
+                        method: 'newSearchTriggered',
+                        data: {query: tmp.query, results: tmp.data}
+                    });
                 }
 
             };

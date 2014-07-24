@@ -43,7 +43,7 @@ EEXCESS.logging = (function() {
          * @param {long} timestamp The timestamp, when the recommendations were retrieved
          * @param {String} suffix suffix for the object store name
          */
-        logQuery: function(tabID, query, timestamp, suffix, reason) {
+        logQuery: function(tabID, query, timestamp, suffix, reason, context) {
             /**
              * request the context from the browsertab, the query was sent and
              * execute database transaction on callback
@@ -52,14 +52,15 @@ EEXCESS.logging = (function() {
 //                EEXCESS.storage.put('queries' + suffix, {query: query, timestamp: timestamp, context: data});
 //                // log activated queries on privacy proxy
 //                if (suffix === '' && (typeof reason === 'undefined' || reason !== 'manual')) {
-//                    var xhr = $.ajax({
-//                        url: EEXCESS.config.LOG_QUERY_ACTIVATED_URI,
-//                        data: JSON.stringify({"uuid": EEXCESS.profile.getUUID(), "queryData": {query: query, timestamp: timestamp, context: data}}),
-//                        type: 'POST',
-//                        contentType: 'application/json; charset=UTF-8',
-//                        dataType: 'json'
-//                    });
-//                }
+              if (suffix === '' && (reason === 'manual')) {
+                    var xhr = $.ajax({
+                        url: EEXCESS.config.LOG_QUERY_ACTIVATED_URI,
+                        data: JSON.stringify({"uuid": EEXCESS.profile.getUUID(), "queryData": {query: query, timestamp: timestamp, context: context}}),
+                        type: 'POST',
+                        contentType: 'application/json; charset=UTF-8',
+                        dataType: 'json'
+                    });
+              }
 //            });
         },
         /**
