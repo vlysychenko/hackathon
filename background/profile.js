@@ -4,34 +4,29 @@ EEXCESS.profile = (function() {
     // retrieve UUID from local storage or create a new one
     var _uuid;
     var _language = 'de';
-    if (typeof (Storage) !== 'undefined') {
-        _uuid = localStorage.getItem('profile.uuid');
-        if (typeof _uuid === 'undefined' || _uuid === null) {
-            _uuid = randomUUID();
-            localStorage.setItem('profile.uuid', _uuid);
-        }
-    } else {
+    _uuid = EEXCESS.storage.local('privacy.profile.uuid');
+    if (typeof _uuid === 'undefined' || _uuid === null) {
         _uuid = randomUUID();
+        EEXCESS.storage.local('privacy.profile.uuid', _uuid);
     }
 
     var applyFirstnamePolicy = function() {
-        if (localStorage['privacy.policy.firstname'] === 1) {
-            return localStorage['privacy.profile.firstname'];
+        if (EEXCESS.storage.local('privacy.policy.firstname') === 1 || "1") {
+            return EEXCESS.storage.local('privacy.profile.firstname');
         }
         return "";
     };
 
     var applyLastnamePolicy = function() {
-        if (localStorage['privacy.policy.lastname'] === 1) {
-            return localStorage['privacy.profile.lastname'];
+        if (EEXCESS.storage.local('privacy.policy.lastname') === 1 || "1") {
+            return EEXCESS.storage.local('privacy.profile.lastname');
         }
         return "";
     };
 
     var _interests = function() {
-        // TODO: privacy policy
-        if (typeof (Storage) !== 'undefined' && localStorage["privacy.policy.topics"] !== 1) {
-            var interests = JSON.parse(localStorage.getItem('privacy.profile.topics'));
+        if (EEXCESS.storage.local("privacy.policy.topics") !== 1 && typeof EEXCESS.storage.local("privacy.profile.topics") !== 'undefined') {
+            var interests = JSON.parse(EEXCESS.storage.local('privacy.profile.topics'));
             if ($.isArray(interests)) {
                 // TODO: real weights
                 var weighted = [];
@@ -51,33 +46,40 @@ EEXCESS.profile = (function() {
     };
 
     var applyGenderPolicy = function() {
-        if (localStorage['privacy.policy.gender'] === 1) {
-            return localStorage['privacy.profile.gender'];
+        if (EEXCESS.storage.local('privacy.policy.gender') === 1 || "1") {
+            return EEXCESS.storage.local('privacy.profile.gender');
+        }
+        return "";
+    };
+    
+    var applyUuidPolicy = function() {
+        if (JSON.parse(EEXCESS.storage.local('privacy.policy.uuid')) === 1) {
+            return _uuid;
         }
         return "";
     };
 
     var applyBirthdayPolicy = function() {
-        switch (localStorage["privacy.policy.birthdate"]) {
+        switch (EEXCESS.storage.local("privacy.policy.birthdate")) {
             case '2':
-                if (localStorage["privacy.profile.birthdate"]) {
-                    return localStorage["privacy.profile.birthdate"].split("-")[0].substr(0, 3) + '0s';
+                if (EEXCESS.storage.local("privacy.profile.birthdate")) {
+                    return EEXCESS.storage.local("privacy.profile.birthdate").split("-")[0].substr(0, 3) + '0';
                 }
                 break;
             case '3':
-                if (localStorage["privacy.profile.birthdate"]) {
-                    return localStorage["privacy.profile.birthdate"].split("-")[0];
+                if (EEXCESS.storage.local("privacy.profile.birthdate")) {
+                    return EEXCESS.storage.local("privacy.profile.birthdate").split("-")[0];
                 }
                 break;
             case '4':
-                if (localStorage["privacy.profile.birthdate"]) {
-                    var tmp = localStorage["privacy.profile.birthdate"].split("-");
-                    return tmp[0] + '-' + tmp[1];
+                if (EEXCESS.storage.local("privacy.profile.birthdate")) {
+                    var tmp = EEXCESS.storage.local("privacy.profile.birthdate").split("-");
+                    return tmp[0] + '-' + tmp[1] + '-01';
                 }
                 break;
             case '5':
-                if (localStorage["privacy.profile.birthdate"]) {
-                    return localStorage["privacy.profile.birthdate"];
+                if (EEXCESS.storage.local("privacy.profile.birthdate")) {
+                    return EEXCESS.storage.local("privacy.profile.birthdate");
                 }
                 break;
         }
@@ -91,17 +93,31 @@ EEXCESS.profile = (function() {
     var applyAddressPolicy = function() {
         var address = {
             country: "",
-            zipcode: "",
+            zipCode: "",
             city: "",
             line1: "",
             line2: ""
         };
+        var level = EEXCESS.storage.local('privacy.policy.address');
+        if (level > 1) {
+            setAddressValue('country', address);
+        }
+        if (level > 2) {
+            setAddressValue('zipCode', address);
+        }
+        if (level > 3) {
+            setAddressValue('city', address);
+        }
+        if (level > 4) {
+            setAddressValue('line1', address);
+            setAddressValue('line2', address);
+        }
         return address;
     };
 
     return {
         getUUID: function() {
-            return _uuid;
+            return applyUuidPolicy();
         },
         getLanguage: function(){
             return _language;
@@ -112,19 +128,17 @@ EEXCESS.profile = (function() {
         getProfile: function(callback) {
             var und;
             var profile = {
-                "eexcess-user-profile": {
-                    "history": [],
-                    "firstname": "sss",
-                    "lastname": "test",
-                    "gender": und,
-                    "birthdate": und,
-                    "address": applyAddressPolicy(),
-                    "interests": {
-                        "interest": []
-                    },
-                    "context-list": {}
+                "history": [],
+                "firstName": 'sss',
+                "lastName": 'test',
+                "gender": und,
+                "birthDate": und,
+                "address": applyAddressPolicy(),
+                "interests": {
+                    "interest": []
                 },
-                "uuid": _uuid
+                "contextKeywords": {},
+                "uuid": applyUuidPolicy()
             };
             callback(profile);
         }

@@ -48,13 +48,13 @@ $('#testForm').submit(function(evt) {
     rList.loading(); // show loading bar, will be removed when new results arrive
     // split query terms
     var query_terms = $('#query').val().split(' ');
-    var query = [];
+    var query = {'reason': {'reason': 'manual'}, 'terms': []};
     for (var i = 0; i < query_terms.length; i++) {
         var tmp = {
             weight: 1,
             text: query_terms[i]
         };
-        query.push(tmp);
+        query.terms.push(tmp);
     }
     // send query for new results
     EEXCESS.callBG({method: {parent: 'model', func: 'query'}, data: query});
