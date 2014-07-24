@@ -83,17 +83,17 @@ EEXCESS.initiateQuery = function () {
 EEXCESS.selectedText = '';
 $(function () {
     window.setTimeout(function () {
-        var iframeElement = $('#tinyMce iframe')[0];
+        var iframeElement = $(EEXCESS.config.ID_IFRAME_ELEMENT)[0];
         var iframeDocument = iframeElement.contentDocument || iframeElement.document;
         $(iframeDocument).mouseup(function () {
             window.setTimeout(function () {
                 var text = tinyMCE.activeEditor.selection.getContent({format: "text"});
                 if (text !== '') {
                     if (text !== EEXCESS.selectedText) {
-                        EEXCESS.selectedText = text;
+                        EEXCESS.selectedText = $.trim(text);
                         var elements = [];
                         elements.push({text: text});
-                        EEXCESS.triggerQuery(elements, {reason: 'selection', selectedText: document.getSelection().toString()});
+                        EEXCESS.triggerQuery(elements, {reason: 'selection', selectedText:EEXCESS.selectedText});
                     }
                 } else return;
             }, 2000);
