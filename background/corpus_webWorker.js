@@ -2,15 +2,15 @@ var EEXCESS = EEXCESS || {};
 
 /**
  * Represents a token.
- * 
+ *
  * By default, the type is set to 'w', if no type is provided. This corresponds
  * to a regular word.
- * 
+ *
  * @param {String} token
  * @param {String} parent
  * @param {String} type
  */
-EEXCESS.Token = function(token, parent, type) {
+EEXCESS.Token = function (token, parent, type) {
     this.token = token;
     this.parent = parent;
     this.type = type || 'w';
@@ -19,33 +19,33 @@ EEXCESS.Token = function(token, parent, type) {
 /**
  * Returns an array of stopwords for the provided language if the specified
  * language is supported.
- * 
+ *
  * Currently, only english and german are supported
- * 
+ *
  * @param {String} language country code of provided language
  * @returns {Array} array of stopwords
  */
-EEXCESS.stopwords = function(language) {
+EEXCESS.stopwords = function (language) {
     // TODO: stopwords to DB / learn stopwords ?
     var languages = {};
     languages['en'] = ["a", "about", "above", "after", "again", "against",
-        "all", "am", "an", "and", "any", "are", "aren't", "as", "at", "be", "for","edit",
-        "because", "been", "before", "by", "from", "had", "hadn't", "has", 
-        "hasn't", "have", "haven't", "having", "he", "he'd", "he'll", "he's", 
-        "her", "here", "here's", "hers", "herself", "him", "himself", "his", 
-        "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", 
-        "is", "isn't", "it", "it's", "its", "itself", "let's", "me", "more", 
-        "most", "mustn't", "my", "myself", "no", "nor", "not", "of", "off", 
-        "on", "once", "only", "or", "other", "ought", "our", "ours", 
-        "ourselves", "out", "over", "own", "same", "shan't", "she", "she'd", 
-        "she'll", "she's", "should", "shouldn't", "so", "some", "such", "than", 
-        "that", "that's", "the", "their", "theirs", "them", "themselves", 
-        "then", "there", "there's", "these", "they", "they'd", "they'll", 
-        "they're", "they've", "this", "those", "through", "to", "too", "under", 
-        "until", "up", "very", "was", "wasn't", "we", "we'd", "we'll", "we're", 
-        "we've", "were", "weren't", "what", "what's", "when", "when's", "where", 
-        "where's", "which", "while", "who", "who's", "whom", "why", "why's", 
-        "with", "won't", "would", "wouldn't", "you", "you'd", "you'll", 
+        "all", "am", "an", "and", "any", "are", "aren't", "as", "at", "be", "for", "edit",
+        "because", "been", "before", "by", "from", "had", "hadn't", "has",
+        "hasn't", "have", "haven't", "having", "he", "he'd", "he'll", "he's",
+        "her", "here", "here's", "hers", "herself", "him", "himself", "his",
+        "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into",
+        "is", "isn't", "it", "it's", "its", "itself", "let's", "me", "more",
+        "most", "mustn't", "my", "myself", "no", "nor", "not", "of", "off",
+        "on", "once", "only", "or", "other", "ought", "our", "ours",
+        "ourselves", "out", "over", "own", "same", "shan't", "she", "she'd",
+        "she'll", "she's", "should", "shouldn't", "so", "some", "such", "than",
+        "that", "that's", "the", "their", "theirs", "them", "themselves",
+        "then", "there", "there's", "these", "they", "they'd", "they'll",
+        "they're", "they've", "this", "those", "through", "to", "too", "under",
+        "until", "up", "very", "was", "wasn't", "we", "we'd", "we'll", "we're",
+        "we've", "were", "weren't", "what", "what's", "when", "when's", "where",
+        "where's", "which", "while", "who", "who's", "whom", "why", "why's",
+        "with", "won't", "would", "wouldn't", "you", "you'd", "you'll",
         "you're", "you've", "your", "yours", "yourself", "yourselves"
     ];
     languages["de"] = ["aber", "als", "am", "an", "auch", "auf", "aus", "bei",
@@ -65,6 +65,8 @@ EEXCESS.stopwords = function(language) {
         "weshalb", "wie", "wieder", "wieso", "wir", "wird", "wirst", "wo",
         "woher", "wohin", "wurde", "zu", "zum", "zur", "über"
     ];
+    languages["all"] = languages["en"].concat(languages["de"]);
+
     if (typeof languages[language] !== 'undefined') {
         return languages[language];
     } else {
@@ -79,12 +81,12 @@ EEXCESS.stopwords = function(language) {
  * Tokens, consisting of a single character after this process are discarded.
  * For urls, tokens with the type 'u' are created and for email-adresses,
  * tokens with the type 'e' respectively.
- * 
+ *
  * @param {String} text the text from which to create the token
  * @param {String} parent the parent element of the text
  * @returns {EEXCESS.Token} the created token
  */
-EEXCESS.createToken = function(text, parent) {
+EEXCESS.createToken = function (text, parent) {
     // to lower case
     text = text.toLowerCase();
     // remove leading/trailing whitespace
@@ -109,16 +111,16 @@ EEXCESS.createToken = function(text, parent) {
 
 /**
  * Tokenizes the provided text
- * 
+ *
  * @param {String} text the text to tokenize
  * @param {String} parent the parent element of the text
  * @param {String} language country code of the text's language
  * @returns {Array} tokenized text
  */
-EEXCESS.tokenize = function(text, parent, language) {
+EEXCESS.tokenize = function (text, parent, language) {
     var tokens = [];
 
-    if(this.stopwords(language).indexOf(text.trim().toLowerCase()) !== -1) {
+    if (this.stopwords(language).indexOf(text.trim().toLowerCase()) !== -1) {
         text = '';
     }
     // remove stopwords
@@ -143,21 +145,21 @@ EEXCESS.tokenize = function(text, parent, language) {
 /**
  * Represents a corpus of tokens
  */
-EEXCESS.Corpus = function() {
+EEXCESS.Corpus = function () {
 };
 
 /**
  * Function updates the amount of tokens belonging to the provided parent
- * 
- * If no entry exists for the token in the corpus, a new entry is created along 
+ *
+ * If no entry exists for the token in the corpus, a new entry is created along
  * with the corresponding parent entry. If the token is present, but the parent
  * entry not, the latter is added. Otherwise, the amount of tokens corresponding
- * to the given parent entry is incremented by 1. In all cases, the overall 
+ * to the given parent entry is incremented by 1. In all cases, the overall
  * amount of occurrences of the provided token is incremented by 1.
  * @param {String} token the token for which to increment the amount
  * @param {String} parent the token's parent for which to increment the amount
  */
-EEXCESS.Corpus.prototype.add = function(token, parent) {
+EEXCESS.Corpus.prototype.add = function (token, parent) {
     if (typeof this[token] === 'undefined') {
         this[token] = {};
         this[token][parent] = 1;
@@ -173,14 +175,14 @@ EEXCESS.Corpus.prototype.add = function(token, parent) {
 
 /**
  * Builds a corpus of tokens from the given elements
- * 
+ *
  * @param {Array} elements the elements to tokenize (each entry in the array
  * must be an object with structure {text:String,parent:String}
  * @param {String} language country code for language
  * @param {Function} callback callback function to trigger after calculation is
  * finished. The corpus is passed to this function as an argument.
  */
-EEXCESS.processElements = function(elements, language, callback) {
+EEXCESS.processElements = function (elements, language, callback) {
     // create tokens from text
     var tokens = [];
     for (var i = 0, len = elements.length; i < len; i++) {
@@ -198,7 +200,7 @@ EEXCESS.processElements = function(elements, language, callback) {
 };
 
 // listen for message events
-self.addEventListener('message', function(e) {
+self.addEventListener('message', function (e) {
     if (e.data.request === 'tokenize') {
         EEXCESS.processElements(e.data.elements, e.data.language, self.postMessage);
     }
