@@ -53,6 +53,7 @@ EEXCESS.logging = (function() {
 //                // log activated queries on privacy proxy
 //                if (suffix === '' && (typeof reason === 'undefined' || reason !== 'manual')) {
               if (suffix === '' && (reason === 'manual')) {
+                  console.log('manual query logged');
                     var xhr = $.ajax({
                         url: EEXCESS.config.LOG_QUERY_ACTIVATED_URI,
                         data: JSON.stringify({"uuid": EEXCESS.profile.getUUID(), "queryData": {query: query, timestamp: timestamp, context: context}}),
@@ -69,6 +70,7 @@ EEXCESS.logging = (function() {
          * @param {String} resource URI of the viewed resource
          */
         openedRecommendation: function(tabId, resource) {
+            console.log('opened recommendation');
             var tmp = {
                 resource: resource,
                 timestamp: new Date().getTime(),
@@ -114,6 +116,7 @@ EEXCESS.logging = (function() {
          * @param {String} resource URI of the viewed resource
          */
         tookRecommendation: function(tabId, resource) {
+            console.log('took recommendation');
             var tmp = {
                 resource: resource,
                 timestamp: new Date().getTime(),

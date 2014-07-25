@@ -99,27 +99,24 @@ $(function(){
     });
 });
 
-//$(function(){
-//    window.setInterval(
-//        function(){
-//            var selectedText = tinyMCE.activeEditor.selection.getContent({format : "text"});
-//            if ( selectedText != "" ){
-//                rList.loading();
-//                (function(){
-//                    var query_terms = selectedText.split(' ');
-//                    var query = [];
-//                    for (var i = 0; i < query_terms.length; i++) {
-//                        var tmp = {
-//                            weight: 1,
-//                            text: query_terms[i]
-//                        };
-//                        query.push(tmp);
-//                    }
-//                    // send query for new results
-//                    EEXCESS.callBG({method: {parent: 'model', func: 'query'}, data: query});
-//                })();
-//            }
-//        },
-//        2000
-//    );
-//});
+EEXCESS.selectedText = '';
+$(function () {
+    window.setTimeout(function () {
+        var iframeElement = $(EEXCESS.config.ID_IFRAME_ELEMENT)[0];
+        var iframeDocument = iframeElement.contentDocument || iframeElement.document;
+        $(iframeDocument).mouseup(function () {
+            window.setTimeout(function () {
+                var text = $.trim(tinyMCE.activeEditor.selection.getContent({format: "text"}));
+                if (text !== '') {
+                    if (text !== EEXCESS.selectedText) {
+                        EEXCESS.selectedText = text;
+                        var elements = [];
+                        elements.push({text: text});
+                        EEXCESS.triggerQuery(elements, {reason: 'selection', selectedText:EEXCESS.selectedText});
+                    }
+                } else return;
+            }, 2000);
+
+        });
+    }, 1000);
+});
