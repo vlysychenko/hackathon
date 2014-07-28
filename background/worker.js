@@ -3,9 +3,8 @@
  Remember: Only pass in primitives, and there is none of the native
  security happening
  */
-//var checkIE = (!!window.Worker);
-//if(checkIE)
-//{
+if(window.Worker === undefined){
+    console.log('Using Web Worker emulator');
     var Worker = function ( scriptFile )
     {
         var self = this ;
@@ -132,4 +131,4 @@
 
         return true ;
     } ;
-//}
+}

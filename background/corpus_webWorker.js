@@ -200,8 +200,8 @@ EEXCESS.processElements = function (elements, language, callback) {
 };
 
 // listen for message events
-if(false){
-
+// Check, whether Web Worker emulator is being used
+if(typeof self.addEventListener === 'function'){
     self.addEventListener('message', function (e) {
         if (e.data.request === 'tokenize') {
             EEXCESS.processElements(e.data.elements, e.data.language, self.postMessage);
@@ -210,7 +210,7 @@ if(false){
 
 } else {
     onmessage = function(e){
-        EEXCESS.processElements(e.data.elements, e.data.language, self.postMessage);
+        EEXCESS.processElements(e.data.elements, e.data.language, postMessage);
     };
 }
 

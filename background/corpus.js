@@ -14,7 +14,8 @@ EEXCESS.corpus = (function () {
             var lang = EEXCESS.profile.getLanguage();
             var worker = new Worker('../background/corpus_webWorker.js');
 
-            if(false){
+            //Check, whether Web Worker emulator is being used
+            if(typeof worker.addEventListener === 'function'){
                 worker.addEventListener('message', function (e) {
                     // send corpus back to content script
                     callback(e.data);
@@ -22,12 +23,9 @@ EEXCESS.corpus = (function () {
             } else {
                 worker.onmessage = function(e){
                     callback(e.data);
-            };
-
-
-                worker.postMessage({request: 'tokenize', elements: data, language: lang});
-
+                };
             }
+            worker.postMessage({request: 'tokenize', elements: data, language: lang});
         }
     }
 }());
