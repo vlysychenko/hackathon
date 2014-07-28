@@ -200,8 +200,19 @@ EEXCESS.processElements = function (elements, language, callback) {
 };
 
 // listen for message events
-self.addEventListener('message', function (e) {
-    if (e.data.request === 'tokenize') {
+if(false){
+
+    self.addEventListener('message', function (e) {
+        if (e.data.request === 'tokenize') {
+            EEXCESS.processElements(e.data.elements, e.data.language, self.postMessage);
+        }
+    }, false);
+
+} else {
+    onmessage = function(e){
         EEXCESS.processElements(e.data.elements, e.data.language, self.postMessage);
-    }
-}, false);
+    };
+}
+
+
+

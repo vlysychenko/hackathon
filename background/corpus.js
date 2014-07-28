@@ -13,12 +13,21 @@ EEXCESS.corpus = (function () {
 
             var lang = EEXCESS.profile.getLanguage();
             var worker = new Worker('../background/corpus_webWorker.js');
-            worker.addEventListener('message', function (e) {
-                // send corpus back to content script
-                callback(e.data);
-            }, false);
-            worker.postMessage({request: 'tokenize', elements: data, language: lang});
 
+            if(false){
+                worker.addEventListener('message', function (e) {
+                    // send corpus back to content script
+                    callback(e.data);
+                }, false);
+            } else {
+                worker.onmessage = function(e){
+                    callback(e.data);
+            };
+
+
+                worker.postMessage({request: 'tokenize', elements: data, language: lang});
+
+            }
         }
-    };
+    }
 }());
