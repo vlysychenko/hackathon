@@ -120,3 +120,61 @@ $(function () {
         });
     }, 1000);
 });
+
+var enteredText = '';
+
+$(function () {
+    window.setTimeout(function () {
+        var iframeElement = $(EEXCESS.config.ID_IFRAME_ELEMENT)[0];
+        var iframeDocument = iframeElement.contentDocument || iframeElement.document;
+        $(iframeDocument).keydown(function (event) {
+            var text = getString(event);
+            if(text){
+                EEXCESS.selectedText = text;
+                var elements = [];
+                elements.push({text: text});
+                EEXCESS.triggerQuery(elements, {reason: 'selection', selectedText: EEXCESS.selectedText});
+            }
+
+        });
+    }, 1000);
+});
+
+function getString(event){
+    if (event.which === 13) {
+        var text = $.trim(enteredText);
+        enteredText = '';
+        return text;
+
+    } else enteredText += getChar(event);
+}
+
+
+function getSentence(event){
+    var char = getChar(event);
+    if (char === '.') {
+        var text = $.trim(enteredText);
+        enteredText = '';
+        return text;
+
+    } else enteredText += getChar(event);
+}
+
+function getWord(event){
+    if (event.which === 32) {
+        if (enteredText !== '') {
+            var text = $.trim(enteredText);
+            enteredText = '';
+            return text;
+        }
+    }else enteredText += getChar(event);
+}
+
+function getChar(event) {
+    var char = String.fromCharCode(event.which);
+    var reg = /\D/;
+
+    if (reg.test(char) == true) {
+        return char;
+    }
+}
