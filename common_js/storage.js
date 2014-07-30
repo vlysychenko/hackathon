@@ -60,17 +60,21 @@ EEXCESS.storage = (function() {
      * @param {Function} success (optional) success callback
      */
     var _put = function(objectStore, value, success, error) {
-        _getDB(function(db) {
-            var tx = db.transaction(objectStore, 'readwrite');
-            var store = tx.objectStore(objectStore);
-            var req = store.put(value);
-            req.onsuccess = function() {
+        $.ajax({
+            type:'POST',
+            url:EEXCESS.config.STORAGE_URLS[objectStore],
+            data:JSON.stringify(value),
+            success:function (){
+                console.log('Success put to ' + objectStore);
                 _empty_callback(success);
-            };
-            req.onerror = function() {
+            },
+
+            error:function(){
+                console.log('Error put to ' + objectStore);
                 _empty_callback(error);
-            };
-        }, _empty_callback(error));
+            }
+
+        });
     };
 
     /**
@@ -142,7 +146,6 @@ EEXCESS.storage = (function() {
             type:'POST',
             url:EEXCESS.config.VOTE_URL,
             data:JSON.stringify(rating),
-            dataType: 'json',
             success:function (){
                console.log('Success ajax');
                 _empty_callback(success);
@@ -153,7 +156,7 @@ EEXCESS.storage = (function() {
                 _empty_callback(error);
             }
 
-        })
+        });
     };
 
     /**

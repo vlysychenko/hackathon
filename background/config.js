@@ -45,6 +45,10 @@ EEXCESS.config =
     var _ADD_RATING_URL = '/testAjax.php';
     var _MCE_ID = 'text_editor';
     var _ID_IFRAME_ELEMENT = '#tinyMce iframe';
+    var _STORAGE_URLS = {
+        'queries_full': '/store_queries_full.php',
+        'queries': '/store_queries.php'
+    };
 
     return {
         PP_BASE_URI: _PP_BASE_URI,
@@ -60,6 +64,7 @@ EEXCESS.config =
         VOTE_URL: _VOTE_URL,
         ADD_RATING_URL: _ADD_RATING_URL,
         MCE_ID: _MCE_ID,
-        ID_IFRAME_ELEMENT:_ID_IFRAME_ELEMENT
+        ID_IFRAME_ELEMENT:_ID_IFRAME_ELEMENT,
+        STORAGE_URLS: _STORAGE_URLS
     };
 })();

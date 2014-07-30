@@ -194,10 +194,12 @@ EEXCESS.model = (function() {
             }
             params.tab = 'results';
             // log all queries in 'queries_full'
-            EEXCESS.logging.logQuery(tabID, tmp['weightedTerms'], _queryTimestamp, '_full');
+            var selectedText = tmp.hasOwnProperty('reason') ? (tmp['reason']['selectedText'] || '') : '';
+            EEXCESS.logging.logQuery(tabID, tmp['weightedTerms'], _queryTimestamp, '_full',(tmp['reason'] || ''),
+                {selectedText: selectedText, url: document.URL});
             // add manual queries to 'queries'
             if (tmp.hasOwnProperty('reason') && tmp['reason']['reason'] === 'manual') {
-                EEXCESS.logging.logQuery(tabID, tmp['weightedTerms'], _queryTimestamp, '', 'manual', tmp['query']);
+                EEXCESS.logging.logQuery(tabID, tmp['weightedTerms'], _queryTimestamp, '', 'manual', {'query':tmp['query']});
             }
             var success = function(data) { // success callback
                 // TODO: search may return no results (although successful)
