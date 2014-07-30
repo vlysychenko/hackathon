@@ -127,7 +127,7 @@ $(function () {
                 return;
             }
 
-            var nameFunc = 'get_' + EEXCESS.config.SWITCH_SEARCH_TEXT_WRITE;
+            var nameFunc = 'get_' + EEXCESS.profile.getSearchTriggerDelimiter();
             var text = EEXCESS.textSearchByWriting[nameFunc](event);
 
             if (text) {

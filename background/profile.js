@@ -45,6 +45,8 @@ EEXCESS.profile = (function() {
         return [];
     };
 
+    var _searchTriggerDelimiter = 'sentence';
+
     var applyGenderPolicy = function() {
         if (EEXCESS.storage.local('privacy.policy.gender') === 1 || "1") {
             return EEXCESS.storage.local('privacy.profile.gender');
@@ -124,6 +126,14 @@ EEXCESS.profile = (function() {
         },
         setLanguage: function(lang){
             _language = lang;
+        },
+        getSearchTriggerDelimiter: function(){
+            return _searchTriggerDelimiter;
+        },
+        setSearchTriggerDelimiter: function(delimiter){
+            if(EEXCESS.config.ALLOWED_DELIMITER_VALUES.indexOf(delimiter) != -1){
+                _searchTriggerDelimiter = delimiter;
+            }
         },
         getProfile: function(callback) {
             var und;

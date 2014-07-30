@@ -54,9 +54,11 @@ EEXCESS.config =
     var _SPACE_CODE = 32;
     var _ENTER_CODE = 13;
     var _POINT_CODE = 190;
-
-    // switch value:string, sentence, word
-    var _SWITCH_SEARCH_TEXT_WRITE = 'sentence';
+    var _ALLOWED_DELIMITER_VALUES = [
+        'sentence',
+        'word',
+        'string'
+    ];
 
     return {
         PP_BASE_URI: _PP_BASE_URI,
@@ -74,11 +76,11 @@ EEXCESS.config =
         MCE_ID: _MCE_ID,
         ID_IFRAME_ELEMENT:_ID_IFRAME_ELEMENT,
         STORAGE_URLS: _STORAGE_URLS,
-        QUERY_HISTORY_URL: _QUERY_HISTORY_URL
+        QUERY_HISTORY_URL: _QUERY_HISTORY_URL,
         BACKSPACE_CODE: _BACKSPACE_CODE,
         SPACE_CODE: _SPACE_CODE,
         ENTER_CODE: _ENTER_CODE,
-        SWITCH_SEARCH_TEXT_WRITE: _SWITCH_SEARCH_TEXT_WRITE,
-        POINT_CODE:_POINT_CODE
+        POINT_CODE:_POINT_CODE,
+        ALLOWED_DELIMITER_VALUES: _ALLOWED_DELIMITER_VALUES
     };
 })();
