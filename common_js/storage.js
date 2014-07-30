@@ -279,7 +279,7 @@ EEXCESS.storage = (function() {
                 console.log('Error ajax');
                 _empty_callback(error);
             }
-        })
+        });
 
         var resultItem = function(allItemsWithRating, items){
             if(allItemsWithRating.length > 0){
@@ -527,7 +527,26 @@ EEXCESS.storage = (function() {
                 }
             };
         }, _empty_callback(error));
+
     };
+
+    var _getQueryHistory = function(history_length, success, error){
+        $.ajax({
+            type: 'POST',
+            url: EEXCESS.config.QUERY_HISTORY_URL,
+            data: {history_length: history_length},
+            dataType: 'json',
+            success: function (items){
+                console.log('Query history loaded successfully');
+                _optional_callback(success, items);
+            },
+
+            error: function(){
+                console.log('Error loading query history');
+                _empty_callback(error);
+            }
+        });
+    }
 
     return {
         local: _local,
@@ -539,6 +558,7 @@ EEXCESS.storage = (function() {
         getRatings: _getRatings,
         setRating: _setRating,
         closedRecommendation: _closedRecommendation,
-        loadQueryCrumbsData: _loadQueryCrumbsData
+        loadQueryCrumbsData: _loadQueryCrumbsData,
+        getQueryHistory: _getQueryHistory
     };
 })();

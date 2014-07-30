@@ -49,6 +49,7 @@ EEXCESS.config =
         'queries_full': '/store_queries_full.php',
         'queries': '/store_queries.php'
     };
+    var _QUERY_HISTORY_URL = '/get_query_history.php';
 
     return {
         PP_BASE_URI: _PP_BASE_URI,
@@ -65,6 +66,7 @@ EEXCESS.config =
         ADD_RATING_URL: _ADD_RATING_URL,
         MCE_ID: _MCE_ID,
         ID_IFRAME_ELEMENT:_ID_IFRAME_ELEMENT,
-        STORAGE_URLS: _STORAGE_URLS
+        STORAGE_URLS: _STORAGE_URLS,
+        QUERY_HISTORY_URL: _QUERY_HISTORY_URL
     };
 })();
