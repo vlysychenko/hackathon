@@ -7,16 +7,16 @@
  * EEXCESS.callBG({method: {parent: 'logging', func: 'openedRecommendation'}, data: url});
  * EEXCESS.callBG({method: {parent: 'logging', func: 'closedRecommendation'}, data: url});
  */
-var previewHandler = function(url) {
+var previewHandler = function (url) {
     $('<a href="' + url + '"></a>').fancybox({
         'type': 'iframe',
         'width': '90%',
         'height': '90%',
-        afterShow: function() {
+        afterShow: function () {
             // log opening the page's preview in the background script
             EEXCESS.callBG({method: {parent: 'logging', func: 'openedRecommendation'}, data: url});
         },
-        afterClose: function(evt) {
+        afterClose: function (evt) {
             // log closing the page's preview in the background script
             EEXCESS.callBG({method: {parent: 'logging', func: 'closedRecommendation'}, data: url});
         }
@@ -30,7 +30,7 @@ var previewHandler = function(url) {
 var rList = EEXCESS.searchResultList($('#test'), {previewHandler: previewHandler, pathToMedia: '../media/', pathToLibs: '../libs/'});
 
 // populate query field initially
-EEXCESS.callBG({method: {parent: 'model', func: 'getResults'}, data: null}, function(res) {
+EEXCESS.callBG({method: {parent: 'model', func: 'getResults'}, data: null}, function (res) {
     $('#query').val(res.query);
 });
 
@@ -43,7 +43,7 @@ EEXCESS.callBG({method: {parent: 'model', func: 'getResults'}, data: null}, func
  * removed, when new results arrive).
  * Tokenizes the terms from the input field and sends them as query.
  */
-$('#testForm').submit(function(evt) {
+$('#testForm').submit(function (evt) {
     evt.preventDefault();
     rList.loading(); // show loading bar, will be removed when new results arrive
     // split query terms
@@ -63,30 +63,30 @@ $('#testForm').submit(function(evt) {
 
 // update search input field on new query
 EEXCESS.messageListener(
-        function(request, sender, sendResponse) {
-            if (request.method === 'newSearchTriggered') {
-                $('#query').val(request.data.query);
-            }
+    function (request, sender, sendResponse) {
+        if (request.method === 'newSearchTriggered') {
+            $('#query').val(request.data.query);
         }
+    }
 );
 
-$(function(){
-    $('#language').on('change',function(){
+$(function () {
+    $('#language').on('change', function () {
         EEXCESS.profile.setLanguage($(this).val());
         $('#testForm').submit();
     });
 
-    $.each(EEXCESS.config.LANGUAGES_AVAILABLE, function(key, value) {
+    $.each(EEXCESS.config.LANGUAGES_AVAILABLE, function (key, value) {
         $('#language')
             .append($("<option></option>")
-                .attr("value",value)
+                .attr("value", value)
                 .text(value));
     });
     $('#language').val(EEXCESS.profile.getLanguage());
 });
 
-$(function(){
-    $('ul').on('click', '.buttonTakeToTinyMce', function(evt) {
+$(function () {
+    $('ul').on('click', '.buttonTakeToTinyMce', function (evt) {
 
         var img = $(this).parent().find('img.eexcess_previewIMG').attr('src');
         var title = $(this).parent().find('.eexcess_resContainer>a').text();
@@ -100,10 +100,13 @@ $(function(){
 });
 
 EEXCESS.selectedText = '';
+EEXCESS.enteredText = '';
+
 $(function () {
     window.setTimeout(function () {
         var iframeElement = $(EEXCESS.config.ID_IFRAME_ELEMENT)[0];
         var iframeDocument = iframeElement.contentDocument || iframeElement.document;
+
         $(iframeDocument).mouseup(function () {
             window.setTimeout(function () {
                 var text = $.trim(tinyMCE.activeEditor.selection.getContent({format: "text"}));
@@ -112,69 +115,28 @@ $(function () {
                         EEXCESS.selectedText = text;
                         var elements = [];
                         elements.push({text: text});
-                        EEXCESS.triggerQuery(elements, {reason: 'selection', selectedText:EEXCESS.selectedText});
+                        EEXCESS.triggerQuery(elements, {reason: 'selection', selectedText: EEXCESS.selectedText});
                     }
                 } else return;
             }, 2000);
-
         });
-    }, 1000);
-});
 
-var enteredText = '';
-
-$(function () {
-    window.setTimeout(function () {
-        var iframeElement = $(EEXCESS.config.ID_IFRAME_ELEMENT)[0];
-        var iframeDocument = iframeElement.contentDocument || iframeElement.document;
         $(iframeDocument).keydown(function (event) {
-            var text = getString(event);
-            if(text){
+            if (event.which === EEXCESS.config.BACKSPACE_CODE) {
+                EEXCESS.textSearchByWriting.backSpace(event);
+                return;
+            }
+
+            var nameFunc = 'get_' + EEXCESS.config.SWITCH_SEARCH_TEXT_WRITE;
+            var text = EEXCESS.textSearchByWriting[nameFunc](event);
+
+            if (text) {
                 EEXCESS.selectedText = text;
                 var elements = [];
                 elements.push({text: text});
-                EEXCESS.triggerQuery(elements, {reason: 'selection', selectedText: EEXCESS.selectedText});
-            }
-
+                EEXCESS.triggerQuery(elements, {reason: 'write', selectedText: EEXCESS.selectedText});
+                EEXCESS.enteredText = '';
+            }else return;
         });
     }, 1000);
 });
-
-function getString(event){
-    if (event.which === 13) {
-        var text = $.trim(enteredText);
-        enteredText = '';
-        return text;
-
-    } else enteredText += getChar(event);
-}
-
-
-function getSentence(event){
-    var char = getChar(event);
-    if (char === '.') {
-        var text = $.trim(enteredText);
-        enteredText = '';
-        return text;
-
-    } else enteredText += getChar(event);
-}
-
-function getWord(event){
-    if (event.which === 32) {
-        if (enteredText !== '') {
-            var text = $.trim(enteredText);
-            enteredText = '';
-            return text;
-        }
-    }else enteredText += getChar(event);
-}
-
-function getChar(event) {
-    var char = String.fromCharCode(event.which);
-    var reg = /\D/;
-
-    if (reg.test(char) == true) {
-        return char;
-    }
-}

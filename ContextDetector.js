@@ -44,3 +44,50 @@ EEXCESS.triggerQuery = function (textElements, reason) {
         EEXCESS.callBG({method: {parent: 'model', func: 'query'}, data: {reason: reason, terms: query}});
     });
 };
+
+
+EEXCESS.textSearchByWriting = {
+
+    get_string: function (event) {
+        if (event.which === EEXCESS.config.ENTER_CODE) {
+            var text = $.trim(EEXCESS.enteredText);
+            EEXCESS.enteredText = '';
+            return text;
+
+        } else EEXCESS.enteredText += EEXCESS.textSearchByWriting.get_char(event) || '';
+    },
+
+    get_sentence: function (event) {
+        if (event.which === EEXCESS.config.POINT_CODE) {
+            var text = $.trim(EEXCESS.enteredText);
+            EEXCESS.enteredText = '';
+            return text;
+
+        } else EEXCESS.enteredText += EEXCESS.textSearchByWriting.get_char(event) || '';
+    },
+
+    get_word: function (event) {
+        if (event.which === EEXCESS.config.SPACE_CODE) {
+            if (EEXCESS.enteredText !== '') {
+                var text = $.trim(EEXCESS.enteredText);
+                EEXCESS.enteredText = '';
+                return text;
+            }
+        } else EEXCESS.enteredText += EEXCESS.textSearchByWriting.get_char(event) || '';
+    },
+
+    get_char: function (event) {
+        var char = String.fromCharCode(event.which);
+        var reg = /\D/;
+        var checkReg = char.search(reg);
+
+        if (checkReg == !-1) {
+            return char;
+        } else return false;
+    },
+
+    backSpace: function (event) {
+        if (EEXCESS.enteredText.length > 0)
+            EEXCESS.enteredText = EEXCESS.enteredText.slice(0, -1);
+    }
+}
