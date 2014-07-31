@@ -532,7 +532,7 @@ EEXCESS.storage = (function() {
 
     var _getQueryHistory = function(history_length, success, error){
         $.ajax({
-            type: 'POST',
+            type: 'GET',
             url: EEXCESS.config.QUERY_HISTORY_URL,
             data: {history_length: history_length},
             dataType: 'json',
