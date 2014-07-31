@@ -46,6 +46,8 @@ EEXCESS.profile = (function() {
     };
 
     var _searchTriggerDelimiter = 'sentence';
+    var _switchTextSelection = true;
+    var _switchTextWriting = true;
 
     var applyGenderPolicy = function() {
         if (EEXCESS.storage.local('privacy.policy.gender') === 1 || "1") {
@@ -135,6 +137,25 @@ EEXCESS.profile = (function() {
                 _searchTriggerDelimiter = delimiter;
             }
         },
+
+        getSwitchTextSelection: function(){
+            return _switchTextSelection;
+        },
+
+        setSwitchTextSelection: function(tumbler){
+
+            _switchTextSelection = tumbler;
+        },
+
+        getSwitchTextWriting: function(){
+            return _switchTextWriting;
+        },
+
+        setSwitchTextWriting: function(tumbler){
+
+            _switchTextWriting = tumbler;
+        },
+
         getProfile: function(callback) {
             var und;
             var profile = {

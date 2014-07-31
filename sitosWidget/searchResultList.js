@@ -107,36 +107,43 @@ $(function () {
         var iframeElement = $(EEXCESS.config.ID_IFRAME_ELEMENT)[0];
         var iframeDocument = iframeElement.contentDocument || iframeElement.document;
 
+
         $(iframeDocument).mouseup(function () {
-            window.setTimeout(function () {
-                var text = $.trim(tinyMCE.activeEditor.selection.getContent({format: "text"}));
-                if (text !== '') {
-                    if (text !== EEXCESS.selectedText) {
-                        EEXCESS.selectedText = text;
-                        var elements = [];
-                        elements.push({text: text});
-                        EEXCESS.triggerQuery(elements, {reason: 'selection', selectedText: EEXCESS.selectedText});
-                    }
-                } else return;
-            }, 2000);
+            if (EEXCESS.profile.getSwitchTextSelection()) {
+                window.setTimeout(function () {
+                    var text = $.trim(tinyMCE.activeEditor.selection.getContent({format: "text"}));
+                    if (text !== '') {
+                        if (text !== EEXCESS.selectedText) {
+                            EEXCESS.selectedText = text;
+                            var elements = [];
+                            elements.push({text: text});
+                            EEXCESS.triggerQuery(elements, {reason: 'selection', selectedText: EEXCESS.selectedText});
+                        }
+                    } else return;
+                }, 2000);
+            }
         });
+
 
         $(iframeDocument).keydown(function (event) {
-            if (event.which === EEXCESS.config.BACKSPACE_CODE) {
-                EEXCESS.textSearchByWriting.backSpace(event);
-                return;
+            if (EEXCESS.profile.getSwitchTextWriting()) {
+                if (event.which === EEXCESS.config.BACKSPACE_CODE) {
+                    EEXCESS.textSearchByWriting.backSpace(event);
+                    return;
+                }
+
+                var nameFunc = 'get_' + EEXCESS.profile.getSearchTriggerDelimiter();
+                var text = EEXCESS.textSearchByWriting[nameFunc](event);
+
+                if (text) {
+                    EEXCESS.selectedText = text;
+                    var elements = [];
+                    elements.push({text: text});
+                    EEXCESS.triggerQuery(elements, {reason: 'write', selectedText: EEXCESS.selectedText});
+                    EEXCESS.enteredText = '';
+                } else return;
             }
-
-            var nameFunc = 'get_' + EEXCESS.profile.getSearchTriggerDelimiter();
-            var text = EEXCESS.textSearchByWriting[nameFunc](event);
-
-            if (text) {
-                EEXCESS.selectedText = text;
-                var elements = [];
-                elements.push({text: text});
-                EEXCESS.triggerQuery(elements, {reason: 'write', selectedText: EEXCESS.selectedText});
-                EEXCESS.enteredText = '';
-            }else return;
         });
+
     }, 1000);
 });

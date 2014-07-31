@@ -12,6 +12,7 @@
 
 #eexcess {
     border: dotted 1px;
+    position: relative;
     height: 800px;
     width: 350px;
     overflow-y: scroll;
@@ -153,4 +154,11 @@ footer a{
 
 #eexcess_powered_by img{
     height:15px;
+}
+
+#settings_search{
+    /*position: absolute;*/
+    bottom: 0;
+    padding:10px;
+    width: inherit;
 }
