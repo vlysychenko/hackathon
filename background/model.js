@@ -195,11 +195,12 @@ EEXCESS.model = (function() {
             params.tab = 'results';
             // log all queries in 'queries_full'
             var selectedText = tmp.hasOwnProperty('reason') ? (tmp['reason']['selectedText'] || '') : '';
+            var contextObj = {selectedText: selectedText, url: document.URL};
             EEXCESS.logging.logQuery(tabID, tmp['weightedTerms'], _queryTimestamp, '_full',(tmp['reason'] || ''),
-                {selectedText: selectedText, url: document.URL});
+                contextObj);
             // add manual queries to 'queries'
             if (tmp.hasOwnProperty('reason') && tmp['reason']['reason'] === 'manual') {
-                EEXCESS.logging.logQuery(tabID, tmp['weightedTerms'], _queryTimestamp, '', 'manual', {'query':tmp['query']});
+                EEXCESS.logging.logQuery(tabID, tmp['weightedTerms'], _queryTimestamp, '', 'manual', contextObj);
             }
             var success = function(data) { // success callback
                 // TODO: search may return no results (although successful)
