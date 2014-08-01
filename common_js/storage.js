@@ -207,51 +207,12 @@ EEXCESS.storage = (function() {
      * rating found is returned.
      *
      * @param {Array} items Array of result objects for which to retrieve ratings
+     * @param {Object} context The context in which the recommendations were provided (can e.g. contain a query term)
      * @param {Function} success success callback, receiving the updated results as parameter
      * @param {Function} error (optional) error callback
      * @returns {undefined}
      */
     var _getRatings = function(items, context, success, error) {
-//        _getDB(function(db) {
-//            var tx = db.transaction('resource_relations');
-//            var store = tx.objectStore('resource_relations');
-//            var idx = store.index('resource');
-//
-//            var i = 0;
-//            handleNext(); // initial item (others get handled by callback on success)
-//            // handle a single item
-//            function handleNext() {
-//                if (i < items.length) {
-//                    var curreq = idx.openCursor(items[i].uri);
-//                    curreq.onsuccess = function() {
-//                        var cursor = curreq.result;
-//                        if (cursor) { // TODO: check context?
-//                            var req = store.get(cursor.primaryKey);
-//                            req.onsuccess = function() {
-//                                if (typeof req.result !== 'undefined') {
-//                                    if (req.result.type === 'rating') { // TODO: check context?
-//                                        items[i].rating = req.result.annotation.hasBody['http://purl.org/stuff/rev#rating'];
-//                                        i++;
-//                                        handleNext();
-//                                    } else {
-//                                        cursor.continue();
-//                                    }
-//                                }
-//                            };
-//                        } else {
-//                            i++;
-//                            handleNext();
-//                        }
-//                    };
-//                }
-//            }
-//            tx.oncomplete = function() {
-//                success(items);
-//            };
-//            tx.onerror = function() {
-//                _empty_callback(error);
-//            };
-//        });
 
         var itemsForAddRating = {};
 
@@ -261,8 +222,6 @@ EEXCESS.storage = (function() {
                 context:context
             }
         }
-//
-//        var allItemsWithRating = {};
 
         $.ajax({
             type:'POST',
@@ -272,7 +231,6 @@ EEXCESS.storage = (function() {
             success:function (itemsWithRating){
                 console.log('Success ajax');
                 _optional_callback(success, resultItem(itemsWithRating, items));
-//                allItemsWithRating = itemsWithRating;
             },
 
             error:function(){
@@ -530,7 +488,14 @@ EEXCESS.storage = (function() {
 
     };
 
-    var _getQueryHistory = function(history_length, success, error){
+    /**
+     * Recieves query history from server
+     *
+     * @param {number} historyLength number of queries to recieve
+     * @param {function} success (optional) success callback (receives the database as parameter)
+     * @param {function} error (optional) error callback (receives the error object as parameter)
+     */
+    var _getQueryHistory = function(historyLength, success, error){
         $.ajax({
             type: 'GET',
             url: EEXCESS.config.QUERY_HISTORY_URL,

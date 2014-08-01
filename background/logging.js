@@ -42,16 +42,13 @@ EEXCESS.logging = (function() {
          * @param {String} query The query
          * @param {long} timestamp The timestamp, when the recommendations were retrieved
          * @param {String} suffix suffix for the object store name
+         * @param {String} reason of queyr activation (manual, selection etc.)
+         * @param {Object} context The context in which query was activated (can e.g. contain selection and url of the resource)
          */
         logQuery: function(tabID, query, timestamp, suffix, reason, context) {
-            /**
-             * request the context from the browsertab, the query was sent and
-             * execute database transaction on callback
-             */
-//            EEXCESS.messaging.sendMsgTab(tabID, {method: 'getTextualContext'}, function(data) {
+
               EEXCESS.storage.put('queries' + suffix, {query: query, timestamp: timestamp, context: context});
 //                // log activated queries on privacy proxy
-//                if (suffix === '' && (typeof reason === 'undefined' || reason !== 'manual')) {
               if (suffix === '' && (reason === 'manual')) {
                   console.log('manual query logged');
                     var xhr = $.ajax({
@@ -62,11 +59,11 @@ EEXCESS.logging = (function() {
                         dataType: 'json'
                     });
               }
-//            });
         },
         /**
          * Stores the user interaction of starting to view a recommended resource
          * @memberof EEXCESS.logging
+         * @param {Integer} tabID Identifier of the browsertab, the query was executed in (null in our case)
          * @param {String} resource URI of the viewed resource
          */
         openedRecommendation: function(tabId, resource) {
@@ -96,17 +93,6 @@ EEXCESS.logging = (function() {
          */
         closedRecommendation: function(tabId, resource) {
             console.log('closed recommendation');
-//            EEXCESS.storage.closedRecommendation(resource, function(view) {
-//                view['action'] = 'result-close';
-//                view['uuid'] = EEXCESS.profile.getUUID();
-//                var xhr = $.ajax({
-//                    url: EEXCESS.config.LOG_RCLOSE_URI,
-//                    data: JSON.stringify(view),
-//                    type: 'POST',
-//                    contentType: 'application/json; charset=UTF-8',
-//                    dataType: 'json'
-//                });
-//            });
         },
 
         /**

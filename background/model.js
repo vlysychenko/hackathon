@@ -27,56 +27,6 @@ EEXCESS.model = (function() {
 
     var openResult = null;
 
-//    EEXCESS.browserAction.clickedListener(function(tab) {
-//        EEXCESS.browserAction.getBadgeText({}, function(badgeText) {
-//            if (badgeText === '') {
-//                EEXCESS.model.toggleVisibility(tab.id, tab.url);
-//            } else {
-//                results = cachedResult;
-//                EEXCESS.browserAction.setBadgeText({text: ""});
-//                if (!params.visible) {
-//                    EEXCESS.model.toggleVisibility(tab.id, tab.url);
-//                }
-//
-//                // log activated query
-//                EEXCESS.logging.logQuery(tab.id, results['weightedTerms'], new Date().getTime(), '');
-//                EEXCESS.messaging.sendMsgAllTabs({
-//                    method: 'newSearchTriggered',
-//                    data: {query: cachedResult.query, results: cachedResult.data}
-//                });
-//            }
-//        });
-//    });
-
-    // --- listeners for closing a result view --- //
-//    EEXCESS.tabs.activatedListener(function(activeInfo) {
-//        if (openResult !== null && activeInfo.tabId !== openResult.id) {
-//            EEXCESS.logging.closedRecommendation(openResult.url);
-//            openResult = null;
-//        }
-//    });
-//    EEXCESS.tabs.updateListener(function(tabId, changeInfo, tab) {
-//        if (openResult !== null && tabId === openResult.id) {
-//            if (typeof changeInfo['url'] !== 'undefined' && changeInfo.url !== openResult.url) {
-//                EEXCESS.logging.closedRecommendation(openResult.url);
-//                openResult = null;
-//            }
-//        }
-//    });
-//    EEXCESS.tabs.removedListener(function(tabId, removeInfo) {
-//        if (openResult !== null && tabId === openResult.id) {
-//            EEXCESS.logging.closedRecommendation(openResult.url);
-//            openResult = null;
-//        }
-//    });
-//    EEXCESS.windows.focusChangedListener(function(windowID) {
-//        if (openResult !== null && windowID === EEXCESS.windows.WINDOW_ID_NONE) {
-//            EEXCESS.logging.closedRecommendation(openResult.url);
-//            openResult = null;
-//        }
-//    });
-    // -------------------------------------------- //
-
     var _handleResult = function(res) {
         var execute = function(items) {
             if(EEXCESS.profile.getLanguage() !== undefined
@@ -88,17 +38,12 @@ EEXCESS.model = (function() {
             }else{
                 res.data.results = items;
             }
-//            if (res.hasOwnProperty('reason') && res['reason']['reason'] === 'manual') {
             results = res;
 
                 EEXCESS.sendMsgAll({
                     method: 'newSearchTriggered',
                     data: {query: results.query, results: results.data}
                 });
-//            } else {
-//                cachedResult = res;
-//                EEXCESS.browserAction.setBadgeText({text: "" + res.data.totalResults});
-//            }
         };
 
         // update ratings first
@@ -193,9 +138,9 @@ EEXCESS.model = (function() {
                 return;
             }
             params.tab = 'results';
-            // log all queries in 'queries_full'
             var selectedText = tmp.hasOwnProperty('reason') ? (tmp['reason']['selectedText'] || '') : '';
             var contextObj = {selectedText: selectedText, url: document.URL};
+            // log all queries in 'queries_full'
             EEXCESS.logging.logQuery(tabID, tmp['weightedTerms'], _queryTimestamp, '_full',(tmp['reason'] || ''),
                 contextObj);
             // add manual queries to 'queries'
@@ -206,8 +151,6 @@ EEXCESS.model = (function() {
                 // TODO: search may return no results (although successful)
                 tmp['data'] = data;
                 if (data.totalResults !== 0) {
-//                    // update results with ratings
-//                    _updateRatings(data.results);
                     // create context
                     var context = {query: tmp['query']};
                     // log results
@@ -266,10 +209,6 @@ EEXCESS.model = (function() {
             var context = {query: results.query};
             EEXCESS.annotation.rating(data.uri, data.score, context, true);
             results.data.results[data.pos].rating = data.score;
-//            EEXCESS.messaging.sendMsgOtherTabs(tabID, {
-//                method: {parent: params.tab, func: 'rating'},
-//                data: data
-//            });
         },
         /**
          * Returns the model's current context. The context contains the current
