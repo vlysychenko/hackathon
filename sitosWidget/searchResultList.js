@@ -146,4 +146,9 @@ $(function () {
         });
 
     }, 1000);
+
+    $('a.fancybox_link').fancybox({
+        'type': 'iframe',
+        'width': '90%',
+        'height': '90%'});
 });

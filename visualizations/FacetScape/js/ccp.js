@@ -104,7 +104,10 @@ var PROVIDER = (function() {
                     }
                 }
                 if(typeof action == "undefined") {
-                    EEXCESS.messaging.callBG({method: {parent: 'model', func: 'getResults'},data: null}, function(reqResult) {
+                    EEXCESS.callBG({method: {parent: 'model', func: 'getResults'},data: null}, function(reqResult) {
+                        if(reqResult.results === null){
+                            reqResult = null;
+                        }
                         updateFacetScape(reqResult);
                     });
                 } else if(action == "refresh") {
