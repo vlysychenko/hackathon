@@ -20,18 +20,15 @@ var PROVIDER = (function() {
 
             request: function(term) {
 
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', internal.europeana.url + '&query=' + term + '&rows=200&profile=facets', true);
-                xhr.onload = function() {
-                    var data = JSON.parse(xhr.response);
+                var xhr = $.ajax(internal.europeana.url + '&query=' + term + '&rows=200&profile=facets');
+                xhr.done(function(data) {
                     var ppFacets = internal.europeana.preprocessFacets(data);
                     var ppResults = internal.europeana.preprocessResults(data);
                     internal.onReceiveData(term, ppFacets, ppResults);
-                };
-                xhr.onerror = function() {
+                });
+                xhr.fail(function() {
                     console.log("error");
-                };
-                xhr.send();
+                });
             },
 
             preprocessFacets: function(data) {
