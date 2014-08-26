@@ -21,6 +21,11 @@ EEXCESS.callBG = function(message, callback) {
  * @param {Function} callback a function that looks like this: 
 function(any message, MessageSender sender, function sendResponse) {...};
  */
-EEXCESS.messageListener = function(callback) {
-    EEXCESS.listeners.push(callback);
+EEXCESS.messageListener = function(callback, category) {
+    if(typeof category === 'undefined'){
+        EEXCESS.listeners.push(callback);
+    }else{
+        EEXCESS.listeners[category] = EEXCESS.listeners[category] || [];
+        EEXCESS.listeners[category].push(callback);
+    }
 };

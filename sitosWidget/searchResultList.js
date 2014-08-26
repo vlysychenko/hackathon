@@ -162,6 +162,9 @@ $(function () {
                 EEXCESS.callBG({method: {parent: 'logging', func: 'tookRecommendation'}, data: link});
                 $.fancybox.close();
             });
+        },
+        'afterClose': function(){
+            delete EEXCESS.listeners['facetScape'];
         }
     });
 });

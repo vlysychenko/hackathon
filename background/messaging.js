@@ -19,7 +19,15 @@ EEXCESS.sendMessage = function(tabID, msg, callback) {
  */
 EEXCESS.sendMsgAll = function(msg, callback) {
     for (l in EEXCESS.listeners) {
-        EEXCESS.listeners[l](msg)
+        if(typeof EEXCESS.listeners[l] === 'function'){
+            EEXCESS.listeners[l](msg)
+        }else{
+            for(sl in EEXCESS.listeners[l]){
+                if(typeof EEXCESS.listeners[l][sl] === 'function'){
+                    EEXCESS.listeners[l][sl](msg);
+                }
+            }
+        }
     }
 };
 

@@ -47,7 +47,9 @@ EEXCESS.searchResultList = function(divContainer, options) {
             evt.preventDefault();
             settings.previewHandler(url);
         });
-        _thumbnail(link, img);
+        if(!settings.isFacetScape){
+            _thumbnail(link, img);
+        }
         return link;
     };
     var _thumbnail = function(link, img) {
@@ -99,6 +101,7 @@ EEXCESS.searchResultList = function(divContainer, options) {
     divContainer.append(_error);
 
     // listen for updates
+    if(!settings.isFacetScape){
     EEXCESS.messageListener(
         function(request, sender, sendResponse) {
             if (request.method.parent === 'results') {
@@ -116,6 +119,7 @@ EEXCESS.searchResultList = function(divContainer, options) {
             }
         }
     );
+    }
 
     var showResults = function(data) {
         _error.hide();

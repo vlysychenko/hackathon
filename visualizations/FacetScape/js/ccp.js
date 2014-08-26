@@ -6,8 +6,8 @@ var PROVIDER = (function() {
         currentProvider: null,
         facetScape: null,
         onReceiveData: function(queryTerms, processedData, items) {
-            internal.width = $(window).width();
-            internal.height = $(window).height();
+            internal.width = $(window).width() > 300 ? $(window).width() : (parent ? ($(parent).width() * 0.85) : 900);
+            internal.height = $(window).height() > 300 ? $(window).height() : (parent ? ($(parent).height() * 0.8) : 900);
             if(internal.facetScape != null) {
                 internal.facetScape.draw(queryTerms, processedData, items)
             } else {
@@ -108,12 +108,13 @@ var PROVIDER = (function() {
                         updateFacetScape(reqResult);
                     });
                 } else if(action == "refresh") {
-                    EEXCESS.messaging.listener(
+                    EEXCESS.messageListener(
                         function(request, sender, sendResponse) {
                             if (request.method === 'newSearchTriggered') {
                                 updateFacetScape(request.data);
                             }
-                        }
+                        },
+                        'facetScape'
                     );
                 }
             },
