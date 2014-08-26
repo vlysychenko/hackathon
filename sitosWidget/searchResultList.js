@@ -150,5 +150,18 @@ $(function () {
     $('a.fancybox_link').fancybox({
         'type': 'iframe',
         'width': '90%',
-        'height': '90%'});
+        'height': '90%',
+        'afterLoad': function(current){
+            console.log('fancybox afterload');
+            var iframeElement = current.content[0];
+            var iframeDocument = iframeElement.contentDocument || iframeElement.document;
+            $(iframeDocument).on('takeToMce',function(event, data){
+                insertion = data.insertion;
+                link = data.link;
+                tinyMCE.get(EEXCESS.config.MCE_ID).execCommand("mceInsertContent", false, insertion);
+                EEXCESS.callBG({method: {parent: 'logging', func: 'tookRecommendation'}, data: link});
+                $.fancybox.close();
+            });
+        }
+    });
 });

@@ -8,19 +8,10 @@
  * EEXCESS.callBG({method: {parent: 'logging', func: 'closedRecommendation'}, data: url});
  */
 var previewHandler = function (url) {
-    $('<a href="' + url + '"></a>').fancybox({
-        'type': 'iframe',
-        'width': '90%',
-        'height': '90%',
-        afterShow: function () {
-            // log opening the page's preview in the background script
-            EEXCESS.callBG({method: {parent: 'logging', func: 'openedRecommendation'}, data: url});
-        },
-        afterClose: function (evt) {
-            // log closing the page's preview in the background script
-            EEXCESS.callBG({method: {parent: 'logging', func: 'closedRecommendation'}, data: url});
-        }
-    }).trigger('click');
+
+    // log opening the page's preview in the background script
+    EEXCESS.callBG({method: {parent: 'logging', func: 'openedRecommendation'}, data: url});
+    window.open(url,'_blank');
 };
 
 /*
@@ -85,19 +76,17 @@ EEXCESS.messageListener(
 //    $('#language').val(EEXCESS.profile.getLanguage());
 //});
 
-//$(function () {
-//    $('ul').on('click', '.buttonTakeToTinyMce', function (evt) {
-//
-//        var img = $(this).parent().find('img.eexcess_previewIMG').attr('src');
-//        var title = $(this).parent().find('.eexcess_resContainer>a').text();
-//        var link = $(this).parent().find('.resCtL a').attr('href');
-//        var insertion = '<p><img src="' + img + '" alt="' + title + '">';
-//        insertion += '<p><a href="' + link + '">' + title + '</a></p></p>';
-//        tinyMCE.get(EEXCESS.config.MCE_ID).execCommand("mceInsertContent", false, insertion);
-//        EEXCESS.callBG({method: {parent: 'logging', func: 'tookRecommendation'}, data: link});
-//
-//    });
-//});
+$(function () {
+    $(document).on('click', '#RS_ResultList ul .buttonTakeToTinyMce', function (evt) {
+
+        var img = $(this).parent().find('img.eexcess_previewIMG').attr('src');
+        var title = $(this).parent().find('.eexcess_resContainer>a').text();
+        var link = $(this).parent().find('.resCtL a').attr('href');
+        var insertion = '<p><img src="' + img + '" alt="' + title + '">';
+        insertion += '<p><a href="' + link + '">' + title + '</a></p></p>';
+        parent.$(document).trigger('takeToMce',[{insertion: insertion, link: link}]);
+    });
+});
 
 EEXCESS.selectedText = '';
 EEXCESS.enteredText = '';
