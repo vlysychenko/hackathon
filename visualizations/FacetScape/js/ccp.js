@@ -91,7 +91,7 @@ var PROVIDER = (function() {
 
                 var updateFacetScape = function(response) {
                     if((typeof response == "undefined") || response == null) {
-                        d3.select("#facetScape").text("no data available");
+                        internal.onReceiveData([], [], []);
                     } else {
                         var queryTerms = response.query;
                         var data = response.results;
@@ -121,6 +121,7 @@ var PROVIDER = (function() {
             preprocessFacets: function(data) {
                 var processedData = [];
                 var facets = {};
+                data.results = data.results || [];
                 for(var i = 0; i < data.results.length; i++) {
                     var itemFacets = data.results[i].facets;
                     for(var key in itemFacets) {

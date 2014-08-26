@@ -165,6 +165,7 @@ $(function () {
         },
         'afterClose': function(){
             delete EEXCESS.listeners['facetScape'];
+            $('#language').val(EEXCESS.profile.getLanguage());
         }
     });
 });
