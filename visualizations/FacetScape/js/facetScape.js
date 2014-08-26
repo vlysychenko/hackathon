@@ -725,7 +725,7 @@ function facetScape(domElem, iwidth, iheight, ifacets, queryResultItems, term) {
 
     function FSResultLayout() {
         root.append("div").attr("id", "RS_ResultList").attr("class", "resultList").style("max-height", svgHeight - 40 +"px");//.style("width", svgWidth-2+"px");
-        var rList = EEXCESS.searchResultList($('#RS_ResultList'),{previewHandler: previewHandler, pathToMedia:'../../../media/', pathToLibs:'../../../libs/'});
+        var rList = EEXCESS.searchResultList($('#RS_ResultList'),{previewHandler: previewHandler, pathToMedia:'../../../media/', pathToLibs:'../../../libs/', isFacetScape: true});
         RENDERING.drawResultList();
     }
 
