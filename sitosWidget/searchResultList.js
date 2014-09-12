@@ -92,7 +92,7 @@ $(function () {
         var title = $(this).parent().find('.eexcess_resContainer>a').text();
         var link = $(this).parent().find('.resCtL a').attr('href');
         var insertion = '<p><img src="' + img + '" alt="' + title + '">';
-        insertion += '<p><a href="' + link + '">' + title + '</a></p></p>';
+        insertion += '<p><a href="' + link + '" target="_blank">' + title + '</a></p></p>';
         tinyMCE.get(EEXCESS.config.MCE_ID).execCommand("mceInsertContent", false, insertion);
         EEXCESS.callBG({method: {parent: 'logging', func: 'tookRecommendation'}, data: link});
 
