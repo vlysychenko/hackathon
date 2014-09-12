@@ -146,10 +146,10 @@ EEXCESS.frCall_impl = function(queryData, start, success, error) {
 // set provider call function and url according to the provided value
 // if an inappropriate value is given, set it to fr-stable
 EEXCESS.backend = (function() {
-    var call = EEXCESS.frCall_impl;
-    var url = 'http://eexcess.joanneum.at/eexcess-privacy-proxy/api/v1/recommend';
-    var fr_url = 'http://eexcess.joanneum.at/eexcess-privacy-proxy/api/v1/recommend';
-    var backend = 'fr-stable';
+    var call = EEXCESS.euCall;
+    var url = 'http://europeana.eu/api//v2/search.json?wskey=HT6JwVWha';
+    var fr_url = url;
+    var backend = 'eu';
 
     return {
         setProvider: function(tabID, provider) {
@@ -217,9 +217,9 @@ EEXCESS.backend = (function() {
     };
 }());
 
-// retrieve provider from local storage or set it to 'fr-stable'
-if (typeof (Storage) !== 'undefined') {
+// retrieve provider from local storage or set it to 'eu'
+if (typeof (Storage) !== 'undefined' && localStorage.getItem('backend') !== null) {
     EEXCESS.backend.setProvider(-1, localStorage.getItem('backend'));
 } else {
-    EEXCESS.backend.setProvider(-1, 'fr-stable');
+    EEXCESS.backend.setProvider(-1, 'eu');
 }
