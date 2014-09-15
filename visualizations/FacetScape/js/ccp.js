@@ -107,7 +107,7 @@ var PROVIDER = (function() {
                         }
                         updateFacetScape(reqResult);
                     });
-                } else if(action == "refresh") {
+                } else if((action == "refresh") && (typeof EEXCESS.listeners['facetScape'] == 'undefined')) {
                     EEXCESS.messageListener(
                         function(request, sender, sendResponse) {
                             if (request.method === 'newSearchTriggered') {
