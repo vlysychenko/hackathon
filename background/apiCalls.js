@@ -114,23 +114,25 @@ EEXCESS.frCall_impl = function(queryData, start, success, error) {
         weightedTerms = queryData;
     }
     EEXCESS.profile.getProfile(function(profile) {
-        profile['eexcess-user-profile']['context-list']['context'] = weightedTerms;
+        profile['contextKeywords'] = weightedTerms;
         if (queryData.hasOwnProperty('reason')) {
-            profile['eexcess-user-profile']['context-list']['reason'] = queryData['reason'];
+            profile['context'] = queryData['reason'];
+            // apply history policy
+            if(profile['context']['reason'] === 'page' && JSON.parse(EEXCESS.storage.local("privacy.policy.history")) === 1) {
+                profile['context']['context'] = 'disabled';
+            }
         }
-
-        var proxy_request = {original_request: JSON.stringify(profile), provider: EEXCESS.backend.getProvider()}; // SITOS change
-        console.log(proxy_request);
-
         var xhr = $.ajax({
-            url: EEXCESS.sitosWidget.config.INFORUMROOT + "eexcess/json_proxy.php",
-            data: JSON.stringify(proxy_request),
+            url: EEXCESS.backend.getURL(),
+            data: JSON.stringify(profile),
             type: 'POST',
             contentType: 'application/json; charset=UTF-8',
             dataType: 'json'
         });
         xhr.done(function(data) {
             console.log(data);
+            data['results'] = data['result'];
+            delete data['result'];
             success(data);
         });
         xhr.fail(function(jqXHR, textStatus, errorThrown) {
@@ -218,8 +220,13 @@ EEXCESS.backend = (function() {
 }());
 
 // retrieve provider from local storage or set it to 'eu'
-if (typeof (Storage) !== 'undefined' && localStorage.getItem('backend') !== null) {
-    EEXCESS.backend.setProvider(-1, localStorage.getItem('backend'));
-} else {
-    EEXCESS.backend.setProvider(-1, 'eu');
-}
+//if (typeof (Storage) !== 'undefined' && localStorage.getItem('backend') !== null) {
+//    EEXCESS.backend.setProvider(-1, localStorage.getItem('backend'));
+//} else {
+//    EEXCESS.backend.setProvider(-1, 'eu');
+//}
+EEXCESS.backend.setURL(-1,{
+    pp:'/eexcess_proxy.php',
+    fr:'http://eexcess.joanneum.at/eexcess-privacy-proxy/api/v1/recommend'
+});
+EEXCESS.backend.setProvider(-1, 'self');
