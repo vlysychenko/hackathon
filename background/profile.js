@@ -91,7 +91,7 @@ EEXCESS.profile = (function() {
     };
 
     var setAddressValue = function(field, address) {
-        address[field] = "42";
+        address[field] = "";
     };
 
     var applyAddressPolicy = function() {
@@ -165,9 +165,7 @@ EEXCESS.profile = (function() {
                 "gender": und,
                 "birthDate": und,
                 "address": applyAddressPolicy(),
-                "interests": {
-                    "interest": []
-                },
+                "interests": [],
                 "contextKeywords": {},
                 "uuid": applyUuidPolicy()
             };
