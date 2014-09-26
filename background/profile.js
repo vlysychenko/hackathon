@@ -164,8 +164,8 @@ EEXCESS.profile = (function() {
             var und;
             var profile = {
                 "history": [],
-                "firstName": 'sss',
-                "lastName": 'test',
+                "firstName": '',
+                "lastName": '',
                 "gender": und,
                 "birthDate": und,
                 "address": applyAddressPolicy(),
