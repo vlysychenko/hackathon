@@ -122,6 +122,13 @@ EEXCESS.frCall_impl = function(queryData, start, success, error) {
                 profile['context']['context'] = 'disabled';
             }
         }
+        if(EEXCESS.profile.getLanguage() !== undefined
+            && EEXCESS.profile.getLanguage() !== 'all'){
+            profile['languages'] = [{
+               iso2: EEXCESS.profile.getLanguage(),
+               competenceLevel: 1.0
+            }];
+        }
         var xhr = $.ajax({
             url: EEXCESS.backend.getURL(),
             data: JSON.stringify(profile),

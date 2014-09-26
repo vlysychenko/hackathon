@@ -4,6 +4,7 @@ EEXCESS.profile = (function() {
     // retrieve UUID from local storage or create a new one
     var _uuid;
     var _language = 'de';
+    var _numResults = 60;
     _uuid = EEXCESS.storage.local('privacy.profile.uuid');
     if (typeof _uuid === 'undefined' || _uuid === null) {
         _uuid = randomUUID();
@@ -129,6 +130,9 @@ EEXCESS.profile = (function() {
         setLanguage: function(lang){
             _language = lang;
         },
+        setNumResults: function(num){
+            _numResults = num;
+        },
         getSearchTriggerDelimiter: function(){
             return _searchTriggerDelimiter;
         },
@@ -167,7 +171,8 @@ EEXCESS.profile = (function() {
                 "address": applyAddressPolicy(),
                 "interests": [],
                 "contextKeywords": {},
-                "uuid": applyUuidPolicy()
+                "uuid": applyUuidPolicy(),
+                "numResults": _numResults
             };
             callback(profile);
         }
