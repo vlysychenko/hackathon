@@ -29,12 +29,25 @@ EEXCESS.model = (function() {
 
     var _handleResult = function(res) {
         var execute = function(items) {
+            var euLanguageFilter = function(result){
+                return result.language.indexOf(EEXCESS.profile.getLanguage()) >= 0;
+            }
+            var frLanguageFilter = function(result){
+                return result.facets.language.indexOf(EEXCESS.profile.getLanguage()) >= 0;
+            }
             if(EEXCESS.profile.getLanguage() !== undefined
                 && EEXCESS.profile.getLanguage() !== 'all'
-                && EEXCESS.backend.getProvider() === 'eu'){
-                res.data.results = items.filter(function(result){
-                    return result.language.indexOf(EEXCESS.profile.getLanguage()) >= 0;
-                });
+            ){
+                var languageFilter;
+                switch(EEXCESS.backend.getProvider()){
+                    case 'eu':
+                        languageFilter = euLanguageFilter;
+                        break;
+                    default:
+                        languageFilter = frLanguageFilter;
+                        break;
+                }
+                res.data.results = items.filter(languageFilter);
                 res.data.totalResults = res.data.results.length;
             }else{
                 res.data.results = items;
