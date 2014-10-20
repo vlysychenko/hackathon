@@ -171,7 +171,6 @@ EEXCESS.profile = (function() {
                 "address": applyAddressPolicy(),
                 "interests": [],
                 "contextKeywords": {},
-                "uuid": applyUuidPolicy(),
                 "numResults": _numResults
             };
             callback(profile);

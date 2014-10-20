@@ -59,6 +59,9 @@ EEXCESS.config =
         'word',
         'string'
     ];
+    var _FR_STABLE_URL
+        = 'http://eexcess.joanneum.at/eexcess-federated-recommender-web-service-1.0-SNAPSHOT/recommender/recommend';
+    var _PROXY_URL = '/eexcess_proxy.php';
 
     return {
         PP_BASE_URI: _PP_BASE_URI,
@@ -81,6 +84,8 @@ EEXCESS.config =
         SPACE_CODE: _SPACE_CODE,
         ENTER_CODE: _ENTER_CODE,
         POINT_CODE:_POINT_CODE,
-        ALLOWED_DELIMITER_VALUES: _ALLOWED_DELIMITER_VALUES
+        ALLOWED_DELIMITER_VALUES: _ALLOWED_DELIMITER_VALUES,
+        FR_STABLE_URL: _FR_STABLE_URL,
+        PROXY_URL: _PROXY_URL
     };
 })();

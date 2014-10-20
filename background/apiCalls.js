@@ -182,12 +182,12 @@ EEXCESS.backend = (function() {
                 case 'fr-stable':
                     console.log('fr-stable');
                     call = EEXCESS.frCall_impl;
-                    url = 'http://eexcess.joanneum.at/eexcess-privacy-proxy/api/v1/recommend';
+                    url = EEXCESS.config.FR_STABLE_URL;
                     break;
                 case 'self':
                     console.log('self');
                     call = EEXCESS.frCall_impl;
-                    url = 'http://eexcess.joanneum.at/eexcess-privacy-proxy/api/v1/recommend';
+                    url = EEXCESS.config.FR_STABLE_URL;
                     fr_url = url;
                     if (typeof (Storage) !== 'undefined') {
                         var local_url = localStorage.getItem('local_url');
@@ -227,14 +227,14 @@ EEXCESS.backend = (function() {
 }());
 
 //retrieve provider from local storage or set it to 'fr-stable'
-if (typeof (Storage) !== 'undefined' && localStorage.getItem('backend') !== null) {
-    EEXCESS.backend.setProvider(-1, localStorage.getItem('backend'));
-} else {
-    EEXCESS.backend.setProvider(-1, 'fr-stable');
-}
+//if (typeof (Storage) !== 'undefined' && localStorage.getItem('backend') !== null) {
+//    EEXCESS.backend.setProvider(-1, localStorage.getItem('backend'));
+//} else {
+//    EEXCESS.backend.setProvider(-1, 'fr-stable');
+//}
 //code to use proxy until fr-stable gets crossdomain
-//EEXCESS.backend.setURL(-1,{
-//    pp:'/eexcess_proxy.php',
-//    fr:'http://eexcess.joanneum.at/eexcess-privacy-proxy/api/v1/recommend'
-//});
-//EEXCESS.backend.setProvider(-1, 'self');
+EEXCESS.backend.setURL(-1,{
+    pp: EEXCESS.config.PROXY_URL,
+    fr: EEXCESS.config.FR_STABLE_URL
+});
+EEXCESS.backend.setProvider(-1, 'self');
