@@ -63,6 +63,14 @@ EEXCESS.config =
         = 'http://eexcess.joanneum.at/eexcess-federated-recommender-web-service-1.0-SNAPSHOT/recommender/recommend';
     var _PROXY_URL = '/eexcess_proxy.php';
 
+    var _TIMEOUT = function(param) {
+        if(typeof param !== 'undefined') {
+            // TODO add specific timeouts
+            return 10000;
+        }
+        return 10000;
+    };
+
     return {
         PP_BASE_URI: _PP_BASE_URI,
         LOG_RATING_URI: _LOG_RATING_URI,
@@ -86,6 +94,7 @@ EEXCESS.config =
         POINT_CODE:_POINT_CODE,
         ALLOWED_DELIMITER_VALUES: _ALLOWED_DELIMITER_VALUES,
         FR_STABLE_URL: _FR_STABLE_URL,
-        PROXY_URL: _PROXY_URL
+        PROXY_URL: _PROXY_URL,
+        TIMEOUT: _TIMEOUT
     };
 })();

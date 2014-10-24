@@ -15,6 +15,8 @@ if (typeof String.prototype.startsWith !== 'function') {
 
 var EEXCESS = EEXCESS || {};
 
+EEXCESS.qXHR;
+
 /**
  * Sends a query with the specified parameters to europeana and hands the results
  * to the success callback or the error message to the error callback.
@@ -115,11 +117,16 @@ EEXCESS.frCall_impl = function(queryData, start, success, error) {
     }
     EEXCESS.profile.getProfile(function(profile) {
         profile['contextKeywords'] = weightedTerms;
+        var q = '';
+        for (var i = 0; i < weightedTerms.length; i++) {
+            q += weightedTerms[i].text;
+        }
+        profile['queryID'] = '' + EEXCESS.djb2Code(q) + new Date().getTime();
         if (queryData.hasOwnProperty('reason')) {
             profile['context'] = queryData['reason'];
             // apply history policy
             if(profile['context']['reason'] === 'page' && JSON.parse(EEXCESS.storage.local("privacy.policy.history")) === 1) {
-                profile['context']['context'] = 'disabled';
+                profile['context']['value'] = 'disabled';
             }
         }
         if(EEXCESS.profile.getLanguage() !== undefined
@@ -129,24 +136,30 @@ EEXCESS.frCall_impl = function(queryData, start, success, error) {
                competenceLevel: 1.0
             }];
         }
-        var xhr = $.ajax({
+        if (EEXCESS.qXHR && EEXCESS.qXHR.readystate !== 4) {
+            EEXCESS.qXHR.abort();
+        }
+        EEXCESS.qXHR = $.ajax({
             url: EEXCESS.backend.getURL(),
             data: JSON.stringify(profile),
             type: 'POST',
             contentType: 'application/json; charset=UTF-8',
-            dataType: 'json'
+            dataType: 'json',
+            timeout: EEXCESS.config.TIMEOUT()
         });
-        xhr.done(function(data) {
+        EEXCESS.qXHR.done(function(data) {
             console.log(data);
             data['results'] = data['result'];
             delete data['result'];
             success(data);
         });
-        xhr.fail(function(jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-            error(textStatus);
+        EEXCESS.qXHR.fail(function(jqXHR, textStatus, errorThrown) {
+            if(textStatus !== 'abort') {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+                error(textStatus);
+            }
         });
     });
 };
