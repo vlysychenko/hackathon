@@ -120,6 +120,18 @@ EEXCESS.searchResultList = function(divContainer, options) {
         }
     );
     }
+    
+    var shortenDescription = function(description) {
+
+        var firstPart = description.substring(0, 100);
+        var remainder = description.substring(100, description.length);
+        var endPos = remainder.search(/[.!?; ]/);
+        if (endPos != -1) {
+            firstPart += remainder.substring(0, endPos);
+            firstPart += "...";
+        }
+        return firstPart;
+    }
 
     var showResults = function(data) {
         _error.hide();
@@ -218,17 +230,6 @@ EEXCESS.searchResultList = function(divContainer, options) {
         showResults(reqResult);
     });
 
-    var shortenDescription = function(description) {
-
-        var firstPart = description.substring(0, 100);
-        var remainder = description.substring(100, description.length);
-        var endPos = remainder.search(/[.!?; ]/);
-        if (endPos != -1) {
-            firstPart += remainder.substring(0, endPos);
-            firstPart += "...";
-        }
-        return firstPart;
-    }
 //    };
     return {
         showResults: showResults,
