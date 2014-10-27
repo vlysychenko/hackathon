@@ -1063,7 +1063,19 @@ function facetScape(domElem, iwidth, iheight, ifacets, queryResultItems, term) {
         return {
             search: function(terms) {
                 EEXCESS.profile.setLanguage('all');
-                EEXCESS.callBG({method: {parent: 'model', func: 'query'}, data: {terms:[{weight:1,text:terms}],reason:{reason:'manual'}}});
+                var query_terms = terms.split(' ');
+                var query = [];
+                for (var i = 0; i < query_terms.length; i++) {
+                    var tmp = {
+                        weight: 1,
+                        text: query_terms[i]
+                    };
+                    query.push(tmp);
+                }
+                EEXCESS.callBG({
+                    method: {parent: 'model', func: 'query'},
+                    data: {terms: query, reason: {reason: 'manual', value: terms}}
+                });
                 PROVIDER.buildFacetScape(terms, PROVIDER.getRequestedProvider(), root, iwidth, iheight);
             },
             evaluateSelection: function(selection) {

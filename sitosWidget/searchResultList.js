@@ -48,7 +48,7 @@ $('#testForm').submit(function (evt) {
     rList.loading(); // show loading bar, will be removed when new results arrive
     // split query terms
     var query_terms = $('#query').val().split(' ');
-    var query = {'reason': {'reason': 'manual'}, 'terms': []};
+    var query = {'reason': {'reason': 'manual', 'value': $('#query').val()}, 'terms': []};
     for (var i = 0; i < query_terms.length; i++) {
         var tmp = {
             weight: 1,
@@ -117,7 +117,7 @@ $(function () {
                             EEXCESS.selectedText = text;
                             var elements = [];
                             elements.push({text: text});
-                            EEXCESS.triggerQuery(elements, {reason: 'selection', selectedText: EEXCESS.selectedText});
+                            EEXCESS.triggerQuery(elements, {reason: 'selection', value: EEXCESS.selectedText});
                         }
                     } else return;
                 }, 2000);
@@ -139,7 +139,7 @@ $(function () {
                     EEXCESS.selectedText = text;
                     var elements = [];
                     elements.push({text: text});
-                    EEXCESS.triggerQuery(elements, {reason: 'write', selectedText: EEXCESS.selectedText});
+                    EEXCESS.triggerQuery(elements, {reason: 'write', value: EEXCESS.selectedText});
                     EEXCESS.enteredText = '';
                 } else return;
             }

@@ -120,7 +120,7 @@ EEXCESS.searchResultList = function(divContainer, options) {
         }
     );
     }
-    
+
     var shortenDescription = function(description) {
 
         var firstPart = description.substring(0, 100);

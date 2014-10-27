@@ -179,7 +179,7 @@ EEXCESS.model = (function() {
 
             };
             var error = function(error) { // error callback
-                EEXCESS.messaging.sendMsgTab(tabID, {method: {parent: 'results', func: 'error'}, data: error});
+                EEXCESS.sendMsgTab(tabID, {method: {parent: 'results', func: 'error'}, data: error});
             };
             // call provider (resultlist should start with first item)
             EEXCESS.backend.getCall()(data, 1, success, error);
