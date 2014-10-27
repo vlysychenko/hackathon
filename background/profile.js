@@ -5,6 +5,7 @@ EEXCESS.profile = (function() {
     var _uuid;
     var _language = 'de';
     var _numResults = 60;
+    var _origin = 'SITOS';
     _uuid = EEXCESS.storage.local('privacy.profile.uuid');
     if (typeof _uuid === 'undefined' || _uuid === null) {
         _uuid = randomUUID();
@@ -171,7 +172,8 @@ EEXCESS.profile = (function() {
                 "address": applyAddressPolicy(),
                 "interests": [],
                 "contextKeywords": {},
-                "numResults": _numResults
+                "numResults": _numResults,
+                "origin": _origin
             };
             callback(profile);
         }
