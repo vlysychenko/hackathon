@@ -152,10 +152,10 @@ EEXCESS.model = (function() {
                 return;
             }
             params.tab = 'results';
-            var contextObj = $.extend(tmp.hasOwnProperty('reason') ? tmp['reason'] : {}, {url: document.URL});
+            var contextObj = $.extend({url: document.URL}, tmp.hasOwnProperty('reason') ? tmp['reason'] : {});
             // log all queries
             EEXCESS.logging.logQuery(tabID, tmp['weightedTerms'], _queryTimestamp, '_full',(tmp['reason'] || ''),
-                tmp['reason']);
+                contextObj);
             var success = function(data) { // success callback
                 // TODO: search may return no results (although successful)
                 tmp['data'] = data;
