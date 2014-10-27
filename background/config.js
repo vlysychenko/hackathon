@@ -45,10 +45,7 @@ EEXCESS.config =
     var _ADD_RATING_URL = '/testAjax.php';
     var _MCE_ID = 'text_editor';
     var _ID_IFRAME_ELEMENT = '#tinyMce iframe';
-    var _STORAGE_URLS = {
-        'queries_full': '/store_queries_full.php',
-        'queries': '/store_queries.php'
-    };
+    var _STORAGE_URLS = { };
     var _QUERY_HISTORY_URL = '/get_query_history.php';
     var _BACKSPACE_CODE = 8;
     var _SPACE_CODE = 32;

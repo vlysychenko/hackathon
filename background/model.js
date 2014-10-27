@@ -152,15 +152,10 @@ EEXCESS.model = (function() {
                 return;
             }
             params.tab = 'results';
-            var selectedText = tmp.hasOwnProperty('reason') ? (tmp['reason']['selectedText'] || '') : '';
-            var contextObj = {selectedText: selectedText, url: document.URL};
-            // log all queries in 'queries_full'
+            var contextObj = $.extend(tmp.hasOwnProperty('reason') ? tmp['reason'] : {}, {url: document.URL});
+            // log all queries
             EEXCESS.logging.logQuery(tabID, tmp['weightedTerms'], _queryTimestamp, '_full',(tmp['reason'] || ''),
-                contextObj);
-            // add manual queries to 'queries'
-            if (tmp.hasOwnProperty('reason') && tmp['reason']['reason'] === 'manual') {
-                EEXCESS.logging.logQuery(tabID, tmp['weightedTerms'], _queryTimestamp, '', 'manual', contextObj);
-            }
+                tmp['reason']);
             var success = function(data) { // success callback
                 // TODO: search may return no results (although successful)
                 tmp['data'] = data;

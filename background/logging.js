@@ -46,11 +46,8 @@ EEXCESS.logging = (function() {
          * @param {Object} context The context in which query was activated (can e.g. contain selection and url of the resource)
          */
         logQuery: function(tabID, query, timestamp, suffix, reason, context) {
-
-              EEXCESS.storage.put('queries' + suffix, {query: query, timestamp: timestamp, context: context});
-//                // log activated queries on privacy proxy
-              if (suffix === '' && (reason === 'manual')) {
-                  console.log('manual query logged');
+              // log activated queries on privacy proxy
+                  console.log('query logged');
                     var xhr = $.ajax({
                         url: EEXCESS.config.LOG_QUERY_ACTIVATED_URI,
                         data: JSON.stringify({"uuid": EEXCESS.profile.getUUID(), "queryData": {query: query, timestamp: timestamp, context: context}}),
@@ -58,7 +55,6 @@ EEXCESS.logging = (function() {
                         contentType: 'application/json; charset=UTF-8',
                         dataType: 'json'
                     });
-              }
         },
         /**
          * Stores the user interaction of starting to view a recommended resource
