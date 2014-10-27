@@ -172,8 +172,8 @@ EEXCESS.profile = (function() {
                 "address": applyAddressPolicy(),
                 "interests": [],
                 "contextKeywords": {},
-                "numResults": _numResults,
-                "origin": _origin
+                "numResults": _numResults
+                //"origin": _origin
             };
             callback(profile);
         }
