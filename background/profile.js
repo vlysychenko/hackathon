@@ -250,6 +250,11 @@ EEXCESS.profile = (function() {
         }
     };
 
+    var _loadPrivacySettings = function(){
+        //TODO: load from backend
+        _setPrivacyLevel(EEXCESS.storage.local('privacy.level'));
+    }
+
     return {
         getUUID: function() {
             return applyUuidPolicy();
@@ -313,6 +318,8 @@ EEXCESS.profile = (function() {
 
         loadProfile: _loadProfile,
 
-        setPrivacyLevel: _setPrivacyLevel
+        setPrivacyLevel: _setPrivacyLevel,
+
+        loadPrivacySettings: _loadPrivacySettings
     };
 }());
