@@ -340,12 +340,22 @@ function doLevelClick(){
     $(".panel-body > .progress").each(initPolicyPanel);
 }
 
+function doCustomLevelClick(){
+    EEXCESS.profile.setPrivacyLevel('custom');
+    EEXCESS.storage.local('privacy.policy.level',4);
+    $(".progress-policy-level > .progress-bar").addClass("disable");
+}
+
 (function($) {
   EEXCESS.profile.loadPrivacySettings();
   loadTopics($('#topicInput'));
   $(".progress-bar").click(doProgressClick);
+  $(".progress-bar:not(.policy-level)").click(doCustomLevelClick);
   $(".policy-level").click(doLevelClick);
   $(".progress").live("change",doChangeProgress);
   $(".panel-body > .progress").each(initPolicyPanel);
+  if(EEXCESS.storage.local('privacy.policy.level') > 3){
+      $(".progress-policy-level > .progress-bar").addClass("disable")
+  }
 })(jQuery);
 
