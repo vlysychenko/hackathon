@@ -93,7 +93,7 @@ EEXCESS.profile = (function() {
     };
 
     var setAddressValue = function(field, address) {
-        address[field] = "";
+        address[field] = EEXCESS.storage.local('privacy.profile.address.' + field);;
     };
 
     var applyAddressPolicy = function() {
@@ -119,6 +119,29 @@ EEXCESS.profile = (function() {
             setAddressValue('line2', address);
         }
         return address;
+    };
+
+    // obtain list of selected sources
+    var getPartnerList = function() {
+        var partners = EEXCESS.storage.local('selected_sources');
+        if(typeof partners === 'undefined') {
+            return [{"systemId":"Europeana"},{"systemId":"Mendeley"},{"systemId":"ZBW"},{"systemId":"KIMCollect"}];
+        } else {
+            partners = JSON.parse(partners);
+            var partnerList = [];
+            $.each(partners, function(index,value) {
+                partnerList.push({"systemId":value});
+            });
+            return partnerList;
+        }
+    };
+
+    var applyLocationPolicy = function() {
+        if(JSON.parse(EEXCESS.storage.local('privacy.policy.currentLocation')) === 1) {
+            return JSON.parse(EEXCESS.storage.local('privacy.profile.currentLocation'));
+        } else {
+            return [];
+        }
     };
 
     return {
@@ -162,16 +185,18 @@ EEXCESS.profile = (function() {
         },
 
         getProfile: function(callback) {
-            var und;
             var profile = {
-                "history": [],
-                "firstName": '',
-                "lastName": '',
-                "gender": und,
-                "birthDate": und,
+                //"history": [],
+                "partnerList": getPartnerList(),
+                "firstName": applyFirstnamePolicy(),
+                "lastName": applyLastnamePolicy(),
+                "gender": applyGenderPolicy(),
+                "birthDate": applyBirthdayPolicy(),
                 "address": applyAddressPolicy(),
-                "interests": [],
+                "interests": _interests(),
                 "contextKeywords": {},
+                "uuid": applyUuidPolicy(),
+                "userLocations": applyLocationPolicy(),
                 "numResults": _numResults
                 //"origin": _origin
             };
