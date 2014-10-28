@@ -169,3 +169,5 @@ $(function () {
         }
     });
 });
+
+EEXCESS.profile.loadProfile();

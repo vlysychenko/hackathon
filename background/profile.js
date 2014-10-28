@@ -26,14 +26,14 @@ EEXCESS.profile = (function() {
     }
 
     var applyFirstnamePolicy = function() {
-        if (EEXCESS.storage.local('privacy.policy.firstname') === 1 || "1") {
+        if (EEXCESS.storage.local('privacy.policy.firstname') == "1") {
             return EEXCESS.storage.local('privacy.profile.firstname');
         }
         return "";
     };
 
     var applyLastnamePolicy = function() {
-        if (EEXCESS.storage.local('privacy.policy.lastname') === 1 || "1") {
+        if (EEXCESS.storage.local('privacy.policy.lastname') == "1") {
             return EEXCESS.storage.local('privacy.profile.lastname');
         }
         return "";
@@ -61,7 +61,7 @@ EEXCESS.profile = (function() {
     };
 
     var applyGenderPolicy = function() {
-        if (EEXCESS.storage.local('privacy.policy.gender') === 1 || "1") {
+        if (EEXCESS.storage.local('privacy.policy.gender') == "1") {
             return EEXCESS.storage.local('privacy.profile.gender');
         }
         return "";
