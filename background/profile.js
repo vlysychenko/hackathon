@@ -154,6 +154,66 @@ EEXCESS.profile = (function() {
         }
     };
 
+    var clearProfile = function(){
+        [
+            //'language',
+            //'searchTriggerDelimiter',
+            //'switchTextSelection',
+            //'switchTextWriting',
+            'uuid',
+            'firstname',
+            'lastname',
+            'topics',
+            'gender',
+            'birthdate',
+            'address.country',
+            'address.zipCode',
+            'address.city',
+            'address.line1',
+            'address.line2'
+        ].forEach(function(value){
+                EEXCESS.storage.local('privacy.profile.' + value, null);
+            });
+    };
+
+    var loadProfile = function(){
+        $.ajax({
+            url: EEXCESS.config.PROFILE_URI,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data){
+                clearProfile();
+                _uuid = data['uuid'];
+                if (typeof _uuid === 'undefined' || _uuid === null) {
+                    _uuid = randomUUID();
+                }
+                EEXCESS.storage.local('privacy.profile.uuid', _uuid);
+                EEXCESS.storage.local('privacy.profile.firstname', data['firstname']);
+                EEXCESS.storage.local('privacy.profile.lastname', data['lastname']);
+                if((typeof data['interests'] !== 'undefined')
+                        && $.isArray(data['interests'])){
+                    var topics = [];
+                    data['interests'].forEach(function(interest){
+                        var topic = {policy: 0};
+                        topic['label'] = interest['text'];
+                        topics.push(topic);
+                    });
+                    EEXCESS.storage.local("privacy.profile.topics", JSON.stringify(topics));
+                }
+                EEXCESS.storage.local('privacy.profile.gender', data['gender']);
+                EEXCESS.storage.local("privacy.profile.birthdate", data['birthdate']);
+                if( typeof data['address'] !== 'undefined'){
+                    EEXCESS.storage.local("privacy.profile.address.country", data['address']['country']);
+                    EEXCESS.storage.local("privacy.profile.address.zipCode", data['address']['zipCode']);
+                    EEXCESS.storage.local("privacy.profile.address.city", data['address']['city']);
+                    EEXCESS.storage.local("privacy.profile.address.line1", data['address']['line1']);
+                    EEXCESS.storage.local("privacy.profile.address.line2", data['address']['line2']);
+                }
+                console.log('Loaded profile');
+            }
+        });
+    };
+
     return {
         getUUID: function() {
             return applyUuidPolicy();

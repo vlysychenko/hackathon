@@ -68,6 +68,8 @@ EEXCESS.config =
         return 10000;
     };
 
+    var _PROFILE_URI = '/profile.php';
+
     return {
         PP_BASE_URI: _PP_BASE_URI,
         LOG_RATING_URI: _LOG_RATING_URI,
@@ -92,6 +94,7 @@ EEXCESS.config =
         ALLOWED_DELIMITER_VALUES: _ALLOWED_DELIMITER_VALUES,
         FR_STABLE_URL: _FR_STABLE_URL,
         PROXY_URL: _PROXY_URL,
-        TIMEOUT: _TIMEOUT
+        TIMEOUT: _TIMEOUT,
+        PROFILE_URI: _PROFILE_URI
     };
 })();
