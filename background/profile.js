@@ -3,9 +3,22 @@ var EEXCESS = EEXCESS || {};
 EEXCESS.profile = (function() {
     // retrieve UUID from local storage or create a new one
     var _uuid;
-    var _language = 'de';
+    var _language = EEXCESS.storage.local('privacy.profile.language')
+        ? EEXCESS.storage.local('privacy.profile.language')
+        : 'de';
     var _numResults = 60;
     var _origin = 'SITOS';
+
+    var _searchTriggerDelimiter = (typeof EEXCESS.storage.local('privacy.profile.searchTriggerDelimiter') !== 'undefined')
+        ? EEXCESS.storage.local('privacy.profile.searchTriggerDelimiter')
+        : 'sentence';
+    var _switchTextSelection = (typeof EEXCESS.storage.local('privacy.profile.switchTextSelection') !== 'undefined')
+        ? EEXCESS.storage.local('privacy.profile.switchTextSelection')
+        : true;
+    var _switchTextWriting = (typeof EEXCESS.storage.local('privacy.profile.switchTextWriting') !=='undefined')
+        ? EEXCESS.storage.local('privacy.profile.switchTextWriting')
+        : true;
+
     _uuid = EEXCESS.storage.local('privacy.profile.uuid');
     if (typeof _uuid === 'undefined' || _uuid === null) {
         _uuid = randomUUID();
@@ -46,10 +59,6 @@ EEXCESS.profile = (function() {
         }
         return [];
     };
-
-    var _searchTriggerDelimiter = 'sentence';
-    var _switchTextSelection = true;
-    var _switchTextWriting = true;
 
     var applyGenderPolicy = function() {
         if (EEXCESS.storage.local('privacy.policy.gender') === 1 || "1") {
@@ -137,7 +146,8 @@ EEXCESS.profile = (function() {
     };
 
     var applyLocationPolicy = function() {
-        if(JSON.parse(EEXCESS.storage.local('privacy.policy.currentLocation')) === 1) {
+        if(EEXCESS.storage.local('privacy.policy.currentLocation')
+            && JSON.parse(EEXCESS.storage.local('privacy.policy.currentLocation')) === 1) {
             return JSON.parse(EEXCESS.storage.local('privacy.profile.currentLocation'));
         } else {
             return [];
@@ -153,6 +163,7 @@ EEXCESS.profile = (function() {
         },
         setLanguage: function(lang){
             _language = lang;
+            EEXCESS.storage.local('privacy.profile.language', _language);
         },
         setNumResults: function(num){
             _numResults = num;
@@ -163,6 +174,7 @@ EEXCESS.profile = (function() {
         setSearchTriggerDelimiter: function(delimiter){
             if(EEXCESS.config.ALLOWED_DELIMITER_VALUES.indexOf(delimiter) != -1){
                 _searchTriggerDelimiter = delimiter;
+                EEXCESS.storage.local('privacy.profile.searchTriggerDelimiter', _searchTriggerDelimiter);
             }
         },
 
@@ -171,8 +183,8 @@ EEXCESS.profile = (function() {
         },
 
         setSwitchTextSelection: function(tumbler){
-
             _switchTextSelection = tumbler;
+            EEXCESS.storage.local('privacy.profile.switchTextSelection', _switchTextSelection);
         },
 
         getSwitchTextWriting: function(){
@@ -180,8 +192,8 @@ EEXCESS.profile = (function() {
         },
 
         setSwitchTextWriting: function(tumbler){
-
             _switchTextWriting = tumbler;
+            EEXCESS.storage.local('privacy.profile.switchTextWriting',_switchTextWriting);
         },
 
         getProfile: function(callback) {
