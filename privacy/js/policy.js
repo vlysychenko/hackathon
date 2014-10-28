@@ -1,6 +1,7 @@
 function doProgressClick() {
 	if($(this).siblings().size() <= 1) {
-		$(this).siblings().andSelf().toggleClass("disable");
+        $(this).removeClass("disable");
+        $(this).siblings().addClass("disable");
 	} else {
 		$(this).removeClass("disable");
 		$(this).nextAll().addClass("disable");
@@ -320,10 +321,10 @@ function initPolicyPanel() {
 	}
 	if($(this).find(".progress-bar").size() <= 2) {
 		$(this).find(".progress-bar").eq(value).each(doProgressClick);
-		if(value == 0) {
-			// Hack, simulate 2 clicks to get zero and update other info
-			$(this).find(".progress-bar").eq(value).each(doProgressClick);
-		}
+//		if(value == 0) {
+//			// Hack, simulate 2 clicks to get zero and update other info
+//			$(this).find(".progress-bar").eq(value).each(doProgressClick);
+//		}
 	} else {
 	    // init policy
 		if (value == 0) {
@@ -334,9 +335,16 @@ function initPolicyPanel() {
 	initAvailableValue(fieldName);
 }
 
+function doLevelClick(){
+    EEXCESS.profile.setPrivacyLevel($(this).data('policy-level'));
+    $(".panel-body > .progress").each(initPolicyPanel);
+}
+
 (function($) {
+  EEXCESS.profile.loadPrivacySettings();
   loadTopics($('#topicInput'));
   $(".progress-bar").click(doProgressClick);
+  $(".policy-level").click(doLevelClick);
   $(".progress").live("change",doChangeProgress);
   $(".panel-body > .progress").each(initPolicyPanel);
 })(jQuery);

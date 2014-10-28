@@ -14,7 +14,26 @@
 					<span class="glyphicon glyphicon-lock"></span> Privacy Policy
 				</h3>
 			</div>
-			<div class="panel-body" style="margin: 5px; margin-right: 15px">
+            <div class="panel-body" style="margin: 5px; margin-right: 15px">
+
+               <div class="panel panel-primary" data-eexcess-policy-field="level">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Privacy Level <span class="badge pull-right setting"></span></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="progress" style="width: 60%">
+                            <div class="progress-bar progress-bar-success policy-level" data-policy-level="high" style="width: 34%">
+                                <span>High</span>
+                            </div>
+                            <div class="progress-bar progress-bar-warning policy-level" data-policy-level="middle" style="width: 33%">
+                                <span>Middle</span>
+                            </div>
+                            <div class="progress-bar progress-bar-danger policy-level" data-policy-level="low" style="width: 33%">
+                                <span>Low</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 			
 				<div class="panel panel-primary" data-eexcess-policy-field="firstname">
 					<div class="panel-heading">
@@ -71,32 +90,6 @@
 				<div class="panel panel-primary" data-eexcess-policy-field="gender">
 					<div class="panel-heading">
 						<h3 class="panel-title">Gender <span class="badge pull-right setting"></span></h3>
-					</div>
-					<div class="panel-body">
-						<div class="progress" style="width: 10%">
-							<div class="progress-bar progress-bar-success" style="width: 50%">
-								<span>Off</span>
-							</div>
-							<div class="progress-bar progress-bar-danger disable" style="width: 50%">
-								<span>On</span>
-							</div>
-						</div>
-						<ul class="nav nav-pills">
-							<li style="width: 30%">
-								<span class="label label-default">Available</span>
-								<span id="available"></span>
-							</li>
-							<li style="width: 30%">
-								<span class="label label-default">Disclosed</span>
-								<span id="disclosed"></span>
-							</li>
-						</ul>
-					</div>
-				</div>
-	
-				<div class="panel panel-primary" data-eexcess-policy-field="uuid">
-					<div class="panel-heading">
-						<h3 class="panel-title">User Identifier <span class="badge pull-right setting"></span></h3>
 					</div>
 					<div class="panel-body">
 						<div class="progress" style="width: 10%">
@@ -252,37 +245,21 @@
 				</div>-->
 				<!-- end addition -->
 	
-				<div class="panel panel-primary" data-eexcess-policy-field="searchContextPage">
-					<div class="panel-heading">
-						<h3 class="panel-title">Search Context - transmit current URL <span class="badge pull-right setting"></span></h3>
-					</div>
-					<div class="panel-body">
-						<div class="progress" style="width: 20%">
-							<div class="progress-bar progress-bar-success" style="width: 50%">
-								<span>Off</span>
-							</div>
-							<div class="progress-bar progress-bar-danger disable" style="width: 50%">
-								<span>On</span>
-							</div>
-						</div>
-					</div>
-				</div>
-	
-				<div class="panel panel-primary" data-eexcess-policy-field="currentLocation">
-					<div class="panel-heading">
-						<h3 class="panel-title">Current Location<span class="badge pull-right setting"></span></h3>
-					</div>
-					<div class="panel-body">
-						<div class="progress" style="width: 20%">
-							<div class="progress-bar progress-bar-success" style="width: 50%">
-								<span>Off</span>
-							</div>
-							<div class="progress-bar progress-bar-danger disable" style="width: 50%">
-								<span>On</span>
-							</div>
-						</div>
-					</div>
-				</div>
+				<!--<div class="panel panel-primary" data-eexcess-policy-field="currentLocation">-->
+					<!--<div class="panel-heading">-->
+						<!--<h3 class="panel-title">Current Location<span class="badge pull-right setting"></span></h3>-->
+					<!--</div>-->
+					<!--<div class="panel-body">-->
+						<!--<div class="progress" style="width: 20%">-->
+							<!--<div class="progress-bar progress-bar-success" style="width: 50%">-->
+								<!--<span>Off</span>-->
+							<!--</div>-->
+							<!--<div class="progress-bar progress-bar-danger disable" style="width: 50%">-->
+								<!--<span>On</span>-->
+							<!--</div>-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</div>-->
 				
 			</div>
 		</div>
@@ -292,6 +269,8 @@
 		<script src="/libs/flat_ui/js/bootstrap-switch.js"></script>
 		<script src="/libs/jquery-ui-1.10.3.custom.min.js"></script>
 		<script src="../common_js/storage.js" type="text/javascript"></script>
+        <script src="../background/config.js" type="text/javascript"></script>
+        <script src="../background/profile.js" type="text/javascript"></script>
 		<script src="js/policy.js"></script>
 	</body>
 </html>

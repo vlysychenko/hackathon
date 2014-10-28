@@ -252,7 +252,14 @@ EEXCESS.profile = (function() {
 
     var _loadPrivacySettings = function(){
         //TODO: load from backend
-        _setPrivacyLevel(EEXCESS.storage.local('privacy.level'));
+        var level = 'high';
+        switch(EEXCESS.storage.local('privacy.policy.level')){
+            case '1': level = 'high'; break;
+            case '2': level = 'middle'; break;
+            case '3': level = 'low'; break;
+            default : level = 'custom'; break;
+        }
+        _setPrivacyLevel(level);
     }
 
     return {
