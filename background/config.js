@@ -70,6 +70,25 @@ EEXCESS.config =
 
     var _PROFILE_URI = '/profile.php';
 
+    var _PRIVACY_LEVELS = {
+        'high': {
+            'privacy.policy.address': 2
+        },
+        'middle': {
+            'privacy.policy.address': 4,
+            'privacy.policy.gender' : 1,
+            'privacy.policy.birthdate': 3
+        },
+        'low': {
+            'privacy.policy.firstname': 1,
+            'privacy.policy.lastname': 1,
+            'privacy.policy.topics': 1,
+            'privacy.policy.gender': 1,
+            'privacy.policy.birthdate': 5,
+            'privacy.policy.address': 5
+        }
+    };
+
     return {
         PP_BASE_URI: _PP_BASE_URI,
         LOG_RATING_URI: _LOG_RATING_URI,
@@ -95,6 +114,7 @@ EEXCESS.config =
         FR_STABLE_URL: _FR_STABLE_URL,
         PROXY_URL: _PROXY_URL,
         TIMEOUT: _TIMEOUT,
-        PROFILE_URI: _PROFILE_URI
+        PROFILE_URI: _PROFILE_URI,
+        PRIVACY_LEVELS: _PRIVACY_LEVELS
     };
 })();

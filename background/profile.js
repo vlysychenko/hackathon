@@ -40,7 +40,7 @@ EEXCESS.profile = (function() {
     };
 
     var _interests = function() {
-        if (EEXCESS.storage.local("privacy.policy.topics") !== 1 && typeof EEXCESS.storage.local("privacy.profile.topics") !== 'undefined') {
+        if (EEXCESS.storage.local("privacy.policy.topics") == "1" && typeof EEXCESS.storage.local("privacy.profile.topics") !== 'undefined') {
             var interests = JSON.parse(EEXCESS.storage.local('privacy.profile.topics'));
             if ($.isArray(interests)) {
                 // TODO: real weights
@@ -194,7 +194,7 @@ EEXCESS.profile = (function() {
                         && $.isArray(data['interests'])){
                     var topics = [];
                     data['interests'].forEach(function(interest){
-                        var topic = {policy: 0};
+                        var topic = {policy: EEXCESS.storage.local('privacy.level') === 'low' ? 1 : 0};
                         topic['label'] = interest['text'];
                         topics.push(topic);
                     });
@@ -212,6 +212,42 @@ EEXCESS.profile = (function() {
                 console.log('Loaded profile');
             }
         });
+    };
+
+    var clearPrivacySettings = function(){
+        [
+            'privacy.policy.firstname',
+            'privacy.policy.lastname',
+            'privacy.policy.topics',
+            'privacy.policy.gender',
+            'privacy.policy.birthdate',
+            'privacy.policy.address',
+            'privacy.policy.uuid',
+            'privacy.policy.currentLocation'
+        ].forEach(function(value){
+                EEXCESS.storage.local(value, 0);
+            });
+    };
+
+    var _setPrivacyLevel = function(level){
+        EEXCESS.storage.local('privacy.level', level);
+        if(typeof EEXCESS.config.PRIVACY_LEVELS[level] === 'undefined'){
+            return;
+        }
+        var levelSettings = EEXCESS.config.PRIVACY_LEVELS[level];
+        clearPrivacySettings();
+        for (var key in levelSettings){
+            EEXCESS.storage.local(key,levelSettings[key]);
+        }
+        if(typeof EEXCESS.storage.local("privacy.profile.topics") !== 'undefined'){
+            var interests = JSON.parse(EEXCESS.storage.local('privacy.profile.topics'));
+            if ($.isArray(interests)) {
+                for (var i = 0, len = interests.length; i < len; i++) {
+                    interests[i]['policy'] = level === 'low' ? 1 : 0;
+                }
+                EEXCESS.storage.local("privacy.profile.topics", JSON.stringify(interests));
+            }
+        }
     };
 
     return {
@@ -275,6 +311,8 @@ EEXCESS.profile = (function() {
             callback(profile);
         },
 
-        loadProfile: _loadProfile
+        loadProfile: _loadProfile,
+
+        setPrivacyLevel: _setPrivacyLevel
     };
 }());
