@@ -37,6 +37,15 @@ EEXCESS.storage = (function() {
     };
 
     /**
+     * Removes value from local storage
+     *
+     * @param {String} key The key for which to remove a value
+     */
+    var _localRemove = function(key){
+        localStorage.removeItem(key);
+    }
+
+    /**
      * Obtains a connection to the database
      *
      * @param {function} success success callback, receives the database as parameter
@@ -515,6 +524,7 @@ EEXCESS.storage = (function() {
 
     return {
         local: _local,
+        localRemove: _localRemove,
         put: _put,
         add: _add,
         storeVisit: _storeVisit,

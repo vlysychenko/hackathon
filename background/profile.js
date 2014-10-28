@@ -172,11 +172,11 @@ EEXCESS.profile = (function() {
             'address.line1',
             'address.line2'
         ].forEach(function(value){
-                EEXCESS.storage.local('privacy.profile.' + value, null);
+                EEXCESS.storage.localRemove('privacy.profile.' + value);
             });
     };
 
-    var loadProfile = function(){
+    var _loadProfile = function(){
         $.ajax({
             url: EEXCESS.config.PROFILE_URI,
             type: 'GET',
@@ -267,12 +267,14 @@ EEXCESS.profile = (function() {
                 "address": applyAddressPolicy(),
                 "interests": _interests(),
                 "contextKeywords": {},
-                "uuid": applyUuidPolicy(),
+                //"uuid": applyUuidPolicy(),
                 "userLocations": applyLocationPolicy(),
                 "numResults": _numResults
                 //"origin": _origin
             };
             callback(profile);
-        }
+        },
+
+        loadProfile: _loadProfile
     };
 }());
