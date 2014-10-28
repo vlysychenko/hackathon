@@ -188,8 +188,8 @@ EEXCESS.profile = (function() {
                     _uuid = randomUUID();
                 }
                 EEXCESS.storage.local('privacy.profile.uuid', _uuid);
-                EEXCESS.storage.local('privacy.profile.firstname', data['firstname']);
-                EEXCESS.storage.local('privacy.profile.lastname', data['lastname']);
+                EEXCESS.storage.local('privacy.profile.firstname', data['firstName']);
+                EEXCESS.storage.local('privacy.profile.lastname', data['lastName']);
                 if((typeof data['interests'] !== 'undefined')
                         && $.isArray(data['interests'])){
                     var topics = [];
@@ -201,7 +201,7 @@ EEXCESS.profile = (function() {
                     EEXCESS.storage.local("privacy.profile.topics", JSON.stringify(topics));
                 }
                 EEXCESS.storage.local('privacy.profile.gender', data['gender']);
-                EEXCESS.storage.local("privacy.profile.birthdate", data['birthdate']);
+                EEXCESS.storage.local("privacy.profile.birthdate", data['birthDate']);
                 if( typeof data['address'] !== 'undefined'){
                     EEXCESS.storage.local("privacy.profile.address.country", data['address']['country']);
                     EEXCESS.storage.local("privacy.profile.address.zipCode", data['address']['zipCode']);
