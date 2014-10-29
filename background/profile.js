@@ -257,7 +257,10 @@ EEXCESS.profile = (function() {
             case '1': level = 'high'; break;
             case '2': level = 'middle'; break;
             case '3': level = 'low'; break;
-            default : level = 'custom'; break;
+            default :
+                level = 'custom';
+                EEXCESS.storage.local('privacy.policy.level', 4);
+                break;
         }
         _setPrivacyLevel(level);
     }

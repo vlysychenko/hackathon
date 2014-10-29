@@ -19,16 +19,16 @@ EEXCESS.config =
         EEXCESS.storage.local('privacy.policy.gender', 0);
     }
     if(typeof EEXCESS.storage.local('privacy.policy.history') === 'undefined') {
-        EEXCESS.storage.local('privacy.policy.history', 2);
+        EEXCESS.storage.local('privacy.policy.history', 1);
     }
     if(typeof EEXCESS.storage.local('privacy.policy.lastname') === 'undefined') {
         EEXCESS.storage.local('privacy.policy.lastname', 0);
     }
     if(typeof EEXCESS.storage.local('privacy.policy.topics') === 'undefined') {
-        EEXCESS.storage.local('privacy.policy.topics', 1);
+        EEXCESS.storage.local('privacy.policy.topics', 0);
     }
     if(typeof EEXCESS.storage.local('privacy.policy.uuid') === 'undefined') {
-        EEXCESS.storage.local('privacy.policy.uuid', 1);
+        EEXCESS.storage.local('privacy.policy.uuid', 0);
     }
 
     var _PP_BASE_URI = 'http://eexcess-dev.joanneum.at/eexcess-privacy-proxy/';
