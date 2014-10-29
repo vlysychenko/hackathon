@@ -230,6 +230,7 @@ EEXCESS.profile = (function() {
     };
 
     var _setPrivacyLevel = function(level){
+        //TODO: save on backend
         EEXCESS.storage.local('privacy.level', level);
         if(typeof EEXCESS.config.PRIVACY_LEVELS[level] === 'undefined'){
             return;
@@ -263,6 +264,11 @@ EEXCESS.profile = (function() {
                 break;
         }
         _setPrivacyLevel(level);
+    }
+
+    var _setPrivacyParam = function(key, value){
+        //TODO: save on backend
+        EEXCESS.storage.local(key,value);
     }
 
     return {
@@ -330,6 +336,8 @@ EEXCESS.profile = (function() {
 
         setPrivacyLevel: _setPrivacyLevel,
 
-        loadPrivacySettings: _loadPrivacySettings
+        loadPrivacySettings: _loadPrivacySettings,
+
+        setPrivacyParam: _setPrivacyParam
     };
 }());

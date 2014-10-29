@@ -56,7 +56,7 @@ function updatePolicy() {
                 break;
         	}
         }
-        EEXCESS.storage.local('privacy.profile.topics', JSON.stringify(topics));
+        EEXCESS.profile.setPrivacyParam('privacy.profile.topics', JSON.stringify(topics));
         updateDisclosedValue("topics");
 	} else {
 		// general case
@@ -69,8 +69,8 @@ function updatePolicy() {
 		} else {
 			value = $(this).find(".progress-bar:not(.disable)").size();
 		}
-		
-		EEXCESS.storage.local("privacy.policy."+fieldName,value);
+
+        EEXCESS.profile.setPrivacyParam("privacy.policy."+fieldName, value);
 		updateDisclosedValue(fieldName);
 	}
 	
@@ -342,7 +342,7 @@ function doLevelClick(){
 
 function doCustomLevelClick(){
     EEXCESS.profile.setPrivacyLevel('custom');
-    EEXCESS.storage.local('privacy.policy.level',4);
+    EEXCESS.profile.setPrivacyParam('privacy.policy.level',4);
     $(".progress-policy-level > .progress-bar").addClass("disable");
 }
 
