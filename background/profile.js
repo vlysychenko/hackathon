@@ -163,7 +163,7 @@ EEXCESS.profile = (function() {
             'uuid',
             'firstname',
             'lastname',
-            'topics',
+            //'topics',
             'gender',
             'birthdate',
             'address.country',
@@ -193,9 +193,26 @@ EEXCESS.profile = (function() {
                 if((typeof data['interests'] !== 'undefined')
                         && $.isArray(data['interests'])){
                     var topics = [];
+                    var oldTopicsPolicies = {};
+                    if(typeof EEXCESS.storage.local("privacy.profile.topics") !== 'undefined'){
+                        var oldTopics = JSON.parse(EEXCESS.storage.local('privacy.profile.topics'));
+                        if ($.isArray(oldTopics)) {
+                            oldTopics.forEach(function(oldTopic){
+                                oldTopicsPolicies[oldTopic['label']] = oldTopic['policy'];
+                            });
+                        }
+                    }
                     data['interests'].forEach(function(interest){
-                        var topic = {policy: EEXCESS.storage.local('privacy.level') === 'low' ? 1 : 0};
-                        topic['label'] = interest['text'];
+                        var policy = 0;
+                        if(EEXCESS.storage.local('privacy.level') === 'low'){
+                            policy = 1;
+                        }else if(typeof oldTopicsPolicies[interest['text']] !== 'undefined'){
+                            policy = oldTopicsPolicies[interest['text']];
+                        }
+                        var topic = {
+                            policy: policy,
+                            label: interest['text']
+                        };
                         topics.push(topic);
                     });
                     EEXCESS.storage.local("privacy.profile.topics", JSON.stringify(topics));
