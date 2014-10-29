@@ -6,6 +6,20 @@ var EEXCESS = EEXCESS || {};
  * @namespace EEXCESS.model
  */
 EEXCESS.model = (function() {
+    // init location
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var loc = [{
+                longitude: position.coords.longitude,
+                latitude: position.coords.latitude,
+                accuracy: position.coords.accuracy,
+                timestamp: position.timestamp
+            }];
+            EEXCESS.storage.local('privacy.profile.currentLocation', JSON.stringify(loc));
+        });
+    } else {
+        EEXCESS.storage.local('privacy.profile.currentLocation', JSON.stringify([]));
+    }
     // general widget parameters
     var params = {
         visible: false,

@@ -85,7 +85,8 @@ EEXCESS.config =
             'privacy.policy.topics': 1,
             'privacy.policy.gender': 1,
             'privacy.policy.birthdate': 5,
-            'privacy.policy.address': 5
+            'privacy.policy.address': 5,
+            'privacy.policy.currentLocation': 1
         }
     };
 
