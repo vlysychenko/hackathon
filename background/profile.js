@@ -176,7 +176,7 @@ EEXCESS.profile = (function() {
             });
     };
 
-    var _loadProfile = function(){
+    var _loadProfile = function(callback){
         $.ajax({
             url: EEXCESS.config.PROFILE_URI,
             type: 'GET',
@@ -209,7 +209,16 @@ EEXCESS.profile = (function() {
                     EEXCESS.storage.local("privacy.profile.address.line1", data['address']['line1']);
                     EEXCESS.storage.local("privacy.profile.address.line2", data['address']['line2']);
                 }
+                if( typeof data['languages'] !== 'undefined'
+                        && $.isArray(data['languages'])
+                        && data['languages'].length > 0){
+                    _language = data['languages'][0]['iso2'];
+                    EEXCESS.storage.local('privacy.profile.language', _language);
+                }
                 console.log('Loaded profile');
+                if(typeof callback === 'function'){
+                    callback();
+                }
             }
         });
     };

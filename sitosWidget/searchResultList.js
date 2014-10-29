@@ -170,5 +170,7 @@ $(function () {
     });
 });
 
-EEXCESS.profile.loadProfile();
+EEXCESS.profile.loadProfile(function(){
+    $('#language').val(EEXCESS.profile.getLanguage());
+});
 EEXCESS.profile.loadPrivacySettings();
