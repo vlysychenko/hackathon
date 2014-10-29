@@ -1,6 +1,6 @@
 $(function () {
-    $('#settings_search a').fancybox({
-        afterShow: function(){
+    $(' a#settings_search').fancybox({
+        afterLoad: function(){
             $("input[name=selected_text]").prop("checked", EEXCESS.profile.getSwitchTextSelection());
             $("input[name=type_text]").prop("checked", EEXCESS.profile.getSwitchTextWriting());
             $("#set_search input:radio").each(function(){

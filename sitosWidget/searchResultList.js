@@ -171,3 +171,4 @@ $(function () {
 });
 
 EEXCESS.profile.loadProfile();
+EEXCESS.profile.loadPrivacySettings();
