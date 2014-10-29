@@ -357,5 +357,10 @@ function doCustomLevelClick(){
   if(EEXCESS.storage.local('privacy.policy.level') > 3){
       $(".progress-policy-level > .progress-bar").addClass("disable")
   }
+  $('#help-image').popover({
+      trigger: 'hover',
+      'placement': 'bottom',
+      'html': true
+  });
 })(jQuery);
 
