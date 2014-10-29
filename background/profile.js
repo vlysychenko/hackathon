@@ -170,8 +170,7 @@ EEXCESS.profile = (function() {
             'address.zipCode',
             'address.city',
             'address.line1',
-            'address.line2',
-            'currentLocation'
+            'address.line2'
         ].forEach(function(value){
                 EEXCESS.storage.localRemove('privacy.profile.' + value);
             });
